@@ -7,7 +7,7 @@ set number
 set relativenumber
 set ruler
 set wrap
-set textwidth=79
+"set textwidth=79
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
@@ -18,14 +18,18 @@ set backspace=indent,eol,start
 set matchpairs+=<:>
 set shortmess=A
 set noswapfile
-set linebreak
+"set linebreak
 set noerrorbells visualbell t_vb=
 set breakindent
 set incsearch
 set splitbelow
 set splitright
-set list
-set listchars=tab:▸\ ,trail:•,extends:»,precedes:«,nbsp:␣
+set linespace=3
+set mouse=r
+"set list
+"set showbreak=↪\ 
+"set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
+" set listchars=tab:.\ ,extends:›,precedes:‹,nbsp:·,trail:·
 
 nnoremap j gj
 nnoremap k gk
@@ -39,8 +43,11 @@ set showcmd
 
 set t_Co=256
 set background=dark
-colorscheme gruvbox
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 let dirvish_mode = ':sort ,^.*/,'
+colorscheme monokai_pro
+
+autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
