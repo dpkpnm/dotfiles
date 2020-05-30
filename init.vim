@@ -1,9 +1,19 @@
 call plug#begin()
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'prabirshrestha/async.vim'
+  Plug 'prabirshrestha/vim-lsp'
+  Plug 'mattn/vim-lsp-settings'
+  Plug 'prabirshrestha/asyncomplete.vim'
+  Plug 'prabirshrestha/asyncomplete-lsp.vim'
+  Plug 'hrsh7th/vim-vsnip-integ'
+  Plug 'hrsh7th/vim-vsnip'
+
+  "Plug 'neoclide/coc.nvim', {'branch': 'release'}
   " Plug 'dense-analysis/ale'
   Plug 'justinmk/vim-dirvish'
   Plug 'tpope/vim-unimpaired'
-  "Plug 'peitalin/vim-jsx-typescript'
+  Plug 'andrewradev/splitjoin.vim'
+  Plug 'dyng/ctrlsf.vim'
+ "Plug 'peitalin/vim-jsx-typescript'
   "Plug 'ianks/vim-tsx'
   Plug 'yuezk/vim-js'
   Plug 'HerringtonDarkholme/yats.vim'
@@ -23,6 +33,7 @@ call plug#begin()
   Plug 'pseewald/vim-anyfold'
   Plug 'phanviet/vim-monokai-pro'
   "Plug 'fszymanski/fzf-quickfix', {'on': 'Quickfix'}
+   Plug 'luochen1990/rainbow'
   Plug 'mbbill/undotree'
 call plug#end()
 source ~/dev/dotfiles/base.vim
@@ -33,3 +44,4 @@ source ~/dev/dotfiles/fugitive.vim
 source ~/dev/dotfiles/statusline.vim
 source ~/dev/dotfiles/jsx.vim
 source ~/dev/dotfiles/keymaps.vim
+

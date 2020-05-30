@@ -48,6 +48,20 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 let dirvish_mode = ':sort ,^.*/,'
 colorscheme monokai_pro
-
+let g:rainbow_active = 1
+let g:ctrlsf_default_root = 'project'
 autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
 autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
+
+augroup suffixes
+    autocmd!
+
+    let associations = [
+                \["javascript", ".js,.javascript,.es,.esx,.json"],
+                \["typescript", ".ts,.tsx"]
+                \]
+
+    for ft in associations
+        execute "autocmd FileType " . ft[0] . " setlocal suffixesadd=" . ft[1]
+    endfor
+augroup END
