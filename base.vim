@@ -7,12 +7,13 @@ set relativenumber
 set ruler
 set wrap
 "set textwidth=79
+set nofoldenable
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set expandtab
 set noshiftround
-set scrolloff=3
+set scrolloff=15
 set backspace=indent,eol,start
 set matchpairs+=<:>
 set cmdheight=1
@@ -51,7 +52,7 @@ set writebackup
 au BufWritePre * let &bex ='-'.strftime("%w%d%H%M")
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 let dirvish_mode = ':sort ,^.*/,'
-colorscheme monokai_pro
+colorscheme monokai_pro 
 augroup suffixes
     autocmd!
     let associations = [
@@ -104,6 +105,7 @@ map tx :bd!<cr>
 map tv :vsp<cr>:bp<cr>
 map to :only<cr>
 map <M-s> <Esc>:w<kEnter>i
+map <M-l> <ESC>gc$<cr>
 map <M-c> :y<kEnter>
 map <C-q> <Esc>:bd!<cr>
 map <M-n> <Esc>:bp<cr>
@@ -118,6 +120,8 @@ map <silent><Leader>n <Esc>:FZF ~/dev/notes<CR>
 map <silent><Leader>o <Esc>:Utl<CR>
 map <silent><Leader>j <Esc>:Note 062020<CR>
 map <silent><leader>b <Esc>:Buffers<CR>
+nmap <tab> <ESC>:b#<CR>
+nmap <silent><C-u> <ESC>:UndotreeToggle<CR>
 map <silent><leader><leader> :bp<cr>
 map <M-b> <Esc>:Buffers<CR>
 map <M-right> <C-w>l

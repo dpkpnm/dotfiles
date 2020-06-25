@@ -1,10 +1,9 @@
 call plug#begin()
-  "Plug 'prabirshrestha/async.vim'
-  "Plug 'prabirshrestha/vim-lsp'
-  "Plug 'mattn/vim-lsp-settings'
-  "Plug 'prabirshrestha/asyncomplete.vim'
-  "Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'connorholyday/vim-snazzy'
+Plug 'pbogut/fzf-mru.vim'
+  Plug 'mbbill/vim-seattle'
   Plug 'inkarkat/vim-UnconditionalPaste'
+  Plug 'mbbill/undotree'
   Plug 'Galooshi/vim-import-js'
   Plug 'dense-analysis/ale'
   Plug 'arecarn/vim-clean-fold'
@@ -30,12 +29,13 @@ call plug#begin()
   Plug 'junegunn/fzf.vim'
   Plug 'phanviet/vim-monokai-pro'
   "Plug 'unblevable/quick-scope'
+  Plug 'easymotion/vim-easymotion'
+  Plug 'MattesGroeger/vim-bookmarks'
   Plug 'tpope/vim-commentary'
-  Plug 'matze/vim-move'
-  Plug 'wellle/targets.vim'
   Plug 'pechorin/any-jump.vim'
   Plug 'francoiscabrol/ranger.vim'
   Plug 'wellle/targets.vim'
+  Plug 'jreybert/vimagit'
 call plug#end()
 source ~/dev/dotfiles/base.vim
 source ~/dev/dotfiles/prettier.vim
