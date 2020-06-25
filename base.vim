@@ -6,7 +6,6 @@ set number
 set relativenumber
 set ruler
 set wrap
-"set textwidth=79
 set nofoldenable
 set tabstop=2
 set shiftwidth=2
@@ -20,7 +19,6 @@ set cmdheight=1
 set nomore
 set shortmess=T
 set noswapfile
-"set linebreak
 set noerrorbells visualbell t_vb=
 set breakindent
 set incsearch
@@ -30,25 +28,18 @@ set linespace=1
 set mouse=r
 set clipboard=unnamedplus
 set autoread
-" set foldcolumn=0
-"set list
-"set showbreak=↪\ 
-"set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
-" set listchars=tab:.\ ,extends:›,precedes:‹,nbsp:·,trail:·
 set suffixesadd+=.ts
-
 set hidden
 set ttyfast
 set laststatus=2
-
 set showmode
 set showcmd
-
 set t_Co=256
 set background=dark
 set backup
 set backupdir=~/dev/backup//
 set writebackup
+
 au BufWritePre * let &bex ='-'.strftime("%w%d%H%M")
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 let dirvish_mode = ':sort ,^.*/,'
@@ -192,3 +183,46 @@ onoremap <silent> [l :call NextIndent(0, 0, 0, 1)<CR>
 onoremap <silent> ]l :call NextIndent(0, 1, 0, 1)<CR>
 onoremap <silent> [L :call NextIndent(1, 0, 1, 1)<CR>
 onoremap <silent> ]L :call NextIndent(1, 1, 1, 1)<CR>
+nnoremap <S-Up> :m-2<CR>
+nnoremap <S-Down> :m+<CR>
+inoremap <S-Up> <Esc>:m-2<CR>
+inoremap <S-Down> <Esc>:m+<CR>
+vnoremap <S-Down> :m+1<CR>gv=gv
+vnoremap <S-Up> :m-2<CR>gv=gv
+call deoplete#custom#option('max_list', 10)
+call deoplete#custom#option('deoplete-options-auto_complete_delay',10)
+map / <Esc>:BLines<CR>
+highlight Pmenu ctermbg=8 guibg=#303030
+highlight PmenuSel ctermbg=1 guifg=#dddd00 guibg=#1f82cd
+highlight PmenuSbar ctermbg=0 guibg=#d6d6d6
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+imap <expr><TAB>
+     \ neosnippet#expandable_or_jumpable() ? : 
+     \   "\<Plug>(neosnippet_expand_or_jump)" : 
+     \ pumvisible()? "\<C-y>" :
+     \ <SID>check_back_space() ? "\<TAB>" :
+     \ deoplete#mappings#manual_complete()
+let $FZF_DEFAULT_OPTS = '--layout=reverse'
+let g:fzf_layout = { 'window': 'call OpenFloatingWin()' }
+function! OpenFloatingWin()
+    let width = min([&columns - 4, max([80, &columns - 20])])
+    let height = min([&lines - 4, max([20, &lines - 10])])
+    let top = ((&lines - height) / 2) - 1
+    let left = (&columns - width) / 2
+    let opts = {'relative': 'editor', 'row': top, 'col': left, 'width': width, 'height': height, 'style': 'minimal'}
+
+        let top = "╭" . repeat("─", width - 2) . "╮"
+        let mid = "│" . repeat(" ", width - 2) . "│"
+        let bot = "╰" . repeat("─", width - 2) . "╯"
+        let lines = [top] + repeat([mid], height - 2) + [bot]
+        let s:buf = nvim_create_buf(v:false, v:true)
+        call nvim_buf_set_lines(s:buf, 0, -1, v:true, lines)
+        call nvim_open_win(s:buf, v:true, opts)
+        set winhl=Normal:Normal
+        let opts.row += 1
+        let opts.height -= 2
+        let opts.col += 2
+        let opts.width -= 4
+        call nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
+        au BufWipeout <buffer> exe 'bw '.s:buf
+endfunction

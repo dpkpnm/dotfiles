@@ -1,12 +1,10 @@
 call plug#begin()
 Plug 'connorholyday/vim-snazzy'
-Plug 'pbogut/fzf-mru.vim'
+  Plug 'pbogut/fzf-mru.vim'
   Plug 'mbbill/vim-seattle'
   Plug 'inkarkat/vim-UnconditionalPaste'
   Plug 'mbbill/undotree'
-  Plug 'Galooshi/vim-import-js'
-  Plug 'dense-analysis/ale'
-  Plug 'arecarn/vim-clean-fold'
+ Plug 'dense-analysis/ale'
   Plug 'Raimondi/delimitMate'
   Plug 'SirVer/ultisnips'
   Plug 'tpope/vim-sensible'
@@ -36,6 +34,8 @@ Plug 'pbogut/fzf-mru.vim'
   Plug 'francoiscabrol/ranger.vim'
   Plug 'wellle/targets.vim'
   Plug 'jreybert/vimagit'
+  Plug 'universal-ctags/ctags'
+  Plug 'airblade/vim-gitgutter'
 call plug#end()
 source ~/dev/dotfiles/base.vim
 source ~/dev/dotfiles/prettier.vim
