@@ -184,6 +184,7 @@ onoremap <silent> ]l :call NextIndent(0, 1, 0, 1)<CR>
 onoremap <silent> [L :call NextIndent(1, 0, 1, 1)<CR>
 onoremap <silent> ]L :call NextIndent(1, 1, 1, 1)<CR>
 nnoremap <S-Up> :m-2<CR>
+nnoremap <silent>? :CtrlSF<CR>
 nnoremap <S-Down> :m+<CR>
 inoremap <S-Up> <Esc>:m-2<CR>
 inoremap <S-Down> <Esc>:m+<CR>
@@ -226,3 +227,4 @@ function! OpenFloatingWin()
         call nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
         au BufWipeout <buffer> exe 'bw '.s:buf
 endfunction
+let g:ctrlsf_context = '-C 2'

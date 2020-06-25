@@ -36,6 +36,7 @@ Plug 'connorholyday/vim-snazzy'
   Plug 'jreybert/vimagit'
   Plug 'universal-ctags/ctags'
   Plug 'airblade/vim-gitgutter'
+  Plug 'dyng/ctrlsf.vim'
 call plug#end()
 source ~/dev/dotfiles/base.vim
 source ~/dev/dotfiles/prettier.vim
