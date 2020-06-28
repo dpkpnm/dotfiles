@@ -1,9 +1,11 @@
 set nocompatible
+syntax on
 set number rnu
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 set nohlsearch
 set scrolloff=15
 set noswapfile
+set nofoldenable 
 set noerrorbells
 set clipboard=unnamedplus
 set mouse=
@@ -33,22 +35,29 @@ call plug#begin('~/.vim/plugged')
 	Plug 'neoclide/coc.nvim' , { 'branch' : 'release' }
   Plug 'xolox/vim-misc'
   Plug 'xolox/vim-notes'
-    let g:notes_suffix = '.txt'
-    let g:notes_directories = ['~/dev/notes']
-    hi notesBlockCode ctermfg=14
-  Plug 'xolox/vim-session'
+ Plug 'xolox/vim-session'
     let g:session_autosave='yes'
     let g:session_autoload='yes'
   Plug 'easymotion/vim-easymotion'
 call plug#end()
 
+ 
+syntax match notesQuestion /\(^\s*?.*\n\)\+/ contains=@notesInline
+syntax match notesImportant /\(^\s*!.*\n\)\+/ contains=@notesInline
+syntax match notesPriority /\(^\s*\*.*\n\)\+/ contains=@notesInline
+syntax match notesAction /\(^\s*>.*\n\)\+/ contains=@notesInline
+syntax match notesEvent /\(^\s*@.*\n\)\+/ contains=@notesInline
+syntax match notesScheduled /\(^\s*<.*\n\)\+/ contains=@notesInline
+let g:notes_suffix = '.txt'
+let g:notes_directories = ['~/dev/notes']
+
 let mapleader = " "
 
 nmap s :w<cr>
 map tg :FZF ~/dev/growers-ui/<cr>
-map tb :FZF ~/dev/backup/<cr>
+map tx :FZF ~/dev/backup/<cr>
 map ti :e ~/dev/dotfiles/init.vim<cr>
-map tx :Buffers<cr>
+map tb :Buffers<cr>
 map ts :w<cr>:so %<cr>
 map th :History<cr>
 map tl :LazyGit<cr>
@@ -91,3 +100,10 @@ function! OpenFloatingWin()
     au BufWipeout <buffer> exe 'bw '.s:buf
 endfunction
 colorscheme gruvbox
+hi notesQuestion ctermfg=163
+hi notesImportant ctermfg=9
+hi notesPriority ctermfg=166
+hi notesAction ctermfg=14
+hi notesEvent ctermfg=10
+hi notesScheduled ctermfg=11
+
