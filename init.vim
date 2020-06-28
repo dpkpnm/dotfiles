@@ -1,5 +1,7 @@
 call plug#begin()
-Plug 'connorholyday/vim-snazzy'
+  Plug 'fszymanski/fzf-quickfix', {'on': 'Quickfix'}
+  Plug 'connorholyday/vim-snazzy'
+  Plug 'kdheepak/lazygit.vim', { 'branch': 'nvim-v0.4.3' }
   Plug 'pbogut/fzf-mru.vim'
   Plug 'mbbill/vim-seattle'
   Plug 'inkarkat/vim-UnconditionalPaste'

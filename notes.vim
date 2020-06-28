@@ -3,7 +3,8 @@ let g:notes_word_boundaries = 1
 let g:notes_unicode_enabled = 1
 let g:notes_ruler_text = 1
 let g:notes_directories = ['~/dev/notes']
-
+let g:notes_list_bullets = ['-','>','@']
+let g:notes_alt_indents = 0
 hi  notesName ctermfg=9
 hi  notesTagName ctermfg=9
 hi  notesListBullet ctermfg=9
