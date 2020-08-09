@@ -1,6 +1,7 @@
 set nocompatible
 syntax on
 set number rnu
+set selectmode+=mouse
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 set nohlsearch
 set scrolloff=15
@@ -15,6 +16,7 @@ set backup writebackup backupdir=~/dev/backup
 au BufWritePre * let &bex ='-'.strftime("%m%d%H%M")
 
 call plug#begin('~/.vim/plugged')
+  Plug 'bkad/CamelCaseMotion' 
 	Plug 'tpope/vim-surround'
   Plug 'tpope/vim-unimpaired'
   Plug 'tpope/vim-repeat'
@@ -23,6 +25,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'justinmk/vim-dirvish'
     let dirvish_mode = ':sort ,^.*/,'
   Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+    let g:prettier#autoformat = 1
+    let g:prettier#autoformat_require_pragma = 0
   Plug 'junegunn/fzf.vim'
     let $FZF_DEFAULT_OPTS = '--layout=reverse'
     let g:fzf_layout = { 'window': 'call OpenFloatingWin()' }
@@ -39,6 +43,8 @@ call plug#begin('~/.vim/plugged')
     let g:session_autosave='yes'
     let g:session_autoload='yes'
   Plug 'easymotion/vim-easymotion'
+  Plug 'evanleck/vim-svelte'
+Plug 'kdheepak/lazygit.nvim'
 call plug#end()
 
  
@@ -50,9 +56,10 @@ syntax match notesEvent /\(^\s*@.*\n\)\+/ contains=@notesInline
 syntax match notesScheduled /\(^\s*<.*\n\)\+/ contains=@notesInline
 let g:notes_suffix = '.txt'
 let g:notes_directories = ['~/dev/notes']
-
+inoremap <expr> j ((pumvisible())?("\<C-n>"):("j"))
+inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
+inoremap <expr> <cr> ((pumvisible())?("\<C-n><C-y>"):("\<cr>"))
 let mapleader = " "
-
 nmap s :w<cr>
 map tg :FZF ~/dev/growers-ui/<cr>
 map tx :FZF ~/dev/backup/<cr>
@@ -76,6 +83,7 @@ map <leader>l <Plug>(easymotion-bd-jk)
 nmap <leader>l <Plug>(easymotion-overwin-line)
 map  <leader>w <Plug>(easymotion-bd-w)
 nmap <leader><leader>w <Plug>(easymotion-overwin-w)
+let g:camelcasemotion_key = '<leader>'
 
 function! OpenFloatingWin()
     let width = min([&columns - 4, max([80, &columns - 20])])
