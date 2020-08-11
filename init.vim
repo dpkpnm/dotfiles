@@ -24,7 +24,6 @@ set cmdheight=1
 au BufWritePre * let &bex ='-'.strftime("%m%d%H%M")
 
 call plug#begin('~/.vim/plugged')
-  Plug 'chuling/equinusocio-material.vim'
   Plug 'jiangmiao/auto-pairs'
 	Plug 'tpope/vim-surround'
   Plug 'tpope/vim-unimpaired'
@@ -76,11 +75,20 @@ let mapleader = " "
 nmap s :w<cr>
 map z mZ
 map zz `Z
-nmap <leader><leader>w <Plug>(easymotion-overwin-w)
 map tg :cd ~/dev/growers-ui/<cr>
 map tn :cd ~/dev/notifications-api/<cr>
-nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
-nnoremap <silent> <localleader> :WhichKey ','<CR> 
+map ti :e ~/dev/dotfiles/init.vim<cr>
+map tb :Buffers<cr>
+map ts :w<cr>:so %<cr>
+map th :History<cr>
+map tl :LazyGit<cr>
+map tt :bn<cr>
+map tx :bd!<cr>   
+map tv :vsp<cr>:bp<cr>
+map to :only<cr>
+
+inoremap <expr> j ((pumvisible())?("\<C-n>"):("j"))
+inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
 nnoremap <silent> <C-p> :FZF<cr>
 nnoremap <silent> <C-b> :Buffers<cr>
 nnoremap <silent> <C-l> :LazyGit<cr>
@@ -91,15 +99,6 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-map ti :e ~/dev/dotfiles/init.vim<cr>
-map tb :Buffers<cr>
-map ts :w<cr>:so %<cr>
-map th :History<cr>
-map tl :LazyGit<cr>
-map tt :bn<cr>
-map tx :bd!<cr>   
-map tv :vsp<cr>:bp<cr>
-map to :only<cr>
 nnoremap <silent> <C-n> :<C-u>exe v:count ? v:count . 'b' : 'b' . (bufloaded(0) ? '#' : 'n')<CR>
 inoremap <buffer> > ></<C-x><C-o><C-y><C-o>%<CR><C-o>O
 let g:EasyMotion_smartcase=1
