@@ -16,6 +16,11 @@ set backup writebackup backupdir=~/dev/backup
 au BufWritePre * let &bex ='-'.strftime("%m%d%H%M")
 
 call plug#begin('~/.vim/plugged')
+  Plug 'fergdev/vim-cursor-hist'
+  Plug 'liuchengxu/vim-clap'
+  Plug 'bilalq/lite-dfm'
+  Plug 'nathanaelkane/vim-indent-guides'
+  Plug 'mattn/emmet-vim'
   Plug 'jiangmiao/auto-pairs'
 	Plug 'tpope/vim-surround'
   Plug 'tpope/vim-unimpaired'
@@ -29,7 +34,9 @@ call plug#begin('~/.vim/plugged')
     let g:prettier#autoformat_require_pragma = 0
   Plug 'junegunn/fzf.vim'
     let $FZF_DEFAULT_OPTS = '--layout=reverse'
-    let g:fzf_layout = { 'window': 'call OpenFloatingWin()' }
+    let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.6, 'highlight': 'Comment', 'border':'sharp'} }
+    "let g:fzf_layout = { 'window': 'call OpenFloatingWin()' }
+  Plug 'antoinemadec/coc-fzf'
   Plug 'MattesGroeger/vim-bookmarks'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 	Plug 'kdheepak/lazygit.vim', { 'branch': 'nvim-v0.4.3' }
@@ -39,14 +46,14 @@ call plug#begin('~/.vim/plugged')
 	Plug 'neoclide/coc.nvim' , { 'branch' : 'release' }
   Plug 'xolox/vim-misc'
   Plug 'xolox/vim-notes'
- Plug 'xolox/vim-session'
+  Plug 'xolox/vim-session'
     let g:session_autosave='yes'
     let g:session_autoload='yes'
   Plug 'easymotion/vim-easymotion'
   Plug 'evanleck/vim-svelte'
-Plug 'kdheepak/lazygit.nvim'
+  Plug 'kdheepak/lazygit.nvim'
+  Plug 'rhysd/git-messenger.vim'
 call plug#end()
-
  
 syntax match notesQuestion /\(^\s*?.*\n\)\+/ contains=@notesInline
 syntax match notesImportant /\(^\s*!.*\n\)\+/ contains=@notesInline
@@ -86,11 +93,10 @@ nnoremap <silent> <C-{> :bp<cr>
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-
+nmap <silent>gm <Plug>(git-messenger)
 nnoremap <silent> <C-n> :<C-u>exe v:count ? v:count . 'b' : 'b' . (bufloaded(0) ? '#' : 'n')<CR>
 inoremap <buffer> > ></<C-x><C-o><C-y><C-o>%<CR><C-o>O
 let g:EasyMotion_smartcase=1
-
 map <leader> <Plug>(easymotion-prefix)
 map <leader>f <Plug>(easymotion-bd-f)
 nmap <leader>f <Plug>(easymotion-overwin-f)
@@ -98,31 +104,11 @@ nmap <leader>s <Plug>(easymotion-overwin-f2)
 map <leader>l <Plug>(easymotion-bd-jk)
 nmap <leader>l <Plug>(easymotion-overwin-line)
 map  <leader>w <Plug>(easymotion-bd-w)
+map <leader>z :LiteDFM<CR>
 nmap <leader><leader>w <Plug>(easymotion-overwin-w)
 let g:camelcasemotion_key = '<leader>'
 
-function! OpenFloatingWin()
-    let width = min([&columns - 4, max([80, &columns - 20])])
-    let height = min([&lines - 4, max([20, &lines - 10])])
-    let top = ((&lines - height) / 2) - 1
-    let left = (&columns - width) / 2
-    let opts = {'relative': 'editor', 'row': top, 'col': left, 'width': width, 'height': height, 'style': 'minimal'}
-
-    let top = "╭" . repeat("─", width - 2) . "╮"
-    let mid = "│" . repeat(" ", width - 2) . "│"
-    let bot = "╰" . repeat("─", width - 2) . "╯"
-    let lines = [top] + repeat([mid], height - 2) + [bot]
-    let s:buf = nvim_create_buf(v:false, v:true)
-    call nvim_buf_set_lines(s:buf, 0, -1, v:true, lines)
-    call nvim_open_win(s:buf, v:true, opts)
-    set winhl=Normal:Normal
-    let opts.row += 1
-    let opts.height -= 2
-    let opts.col += 2
-    let opts.width -= 4
-    call nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
-    au BufWipeout <buffer> exe 'bw '.s:buf
-endfunction
+nmap <leader>o <Plug>(fzf-complete-path)	
 colorscheme gruvbox
 hi notesQuestion ctermfg=163
 hi notesImportant ctermfg=9
@@ -130,4 +116,3 @@ hi notesPriority ctermfg=166
 hi notesAction ctermfg=14
 hi notesEvent ctermfg=10
 hi notesScheduled ctermfg=11
-
