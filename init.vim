@@ -17,10 +17,7 @@ au BufWritePre * let &bex ='-'.strftime("%m%d%H%M")
 
 call plug#begin('~/.vim/plugged')
   Plug 'fergdev/vim-cursor-hist'
-  Plug 'liuchengxu/vim-clap'
   Plug 'bilalq/lite-dfm'
-  Plug 'nathanaelkane/vim-indent-guides'
-  Plug 'mattn/emmet-vim'
   Plug 'jiangmiao/auto-pairs'
 	Plug 'tpope/vim-surround'
   Plug 'tpope/vim-unimpaired'
@@ -35,11 +32,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'junegunn/fzf.vim'
     let $FZF_DEFAULT_OPTS = '--layout=reverse'
     let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.6, 'highlight': 'Comment', 'border':'sharp'} }
-    "let g:fzf_layout = { 'window': 'call OpenFloatingWin()' }
   Plug 'antoinemadec/coc-fzf'
   Plug 'MattesGroeger/vim-bookmarks'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-	Plug 'kdheepak/lazygit.vim', { 'branch': 'nvim-v0.4.3' }
 	Plug 'pangloss/vim-javascript'    " JavaScript support
 	Plug 'HerringtonDarkholme/yats.vim'
 	Plug 'jparise/vim-graphql'        " GraphQL syntaxPlug 'morhetz/gruvbox'
@@ -50,9 +45,8 @@ call plug#begin('~/.vim/plugged')
     let g:session_autosave='yes'
     let g:session_autoload='yes'
   Plug 'easymotion/vim-easymotion'
-  Plug 'evanleck/vim-svelte'
-  Plug 'kdheepak/lazygit.nvim'
   Plug 'rhysd/git-messenger.vim'
+  Plug 'kdheepak/lazygit.vim', { 'branch': 'nvim-v0.4.3' } 
 call plug#end()
  
 syntax match notesQuestion /\(^\s*?.*\n\)\+/ contains=@notesInline
@@ -99,6 +93,7 @@ inoremap <buffer> > ></<C-x><C-o><C-y><C-o>%<CR><C-o>O
 let g:EasyMotion_smartcase=1
 map <leader> <Plug>(easymotion-prefix)
 map <leader>f <Plug>(easymotion-bd-f)
+nmap f <Plug>(easymotion-bd-f)
 nmap <leader>f <Plug>(easymotion-overwin-f)
 nmap <leader>s <Plug>(easymotion-overwin-f2)
 map <leader>l <Plug>(easymotion-bd-jk)
