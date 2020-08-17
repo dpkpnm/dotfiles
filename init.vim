@@ -23,7 +23,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'bilalq/lite-dfm'
   Plug 'jiangmiao/auto-pairs'
 	Plug 'tpope/vim-surround'
-  Plug 'tpope/vim-unimpaired'
   Plug 'tpope/vim-repeat'
   Plug 'morhetz/gruvbox'
 	Plug 'tpope/vim-commentary'
@@ -51,7 +50,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'rhysd/git-messenger.vim'
   Plug 'kdheepak/lazygit.vim', { 'branch': 'nvim-v0.4.3' } 
   Plug 'ruanyl/vim-gh-line'
-  Plug 'justinmk/vim-sneak'
+  " Plug 'justinmk/vim-sneak'
   Plug 'machakann/vim-highlightedyank'
 call plug#end()
  
@@ -64,7 +63,7 @@ syntax match notesScheduled /\(^\s*<.*\n\)\+/ contains=@notesInline
 let g:notes_suffix = '.txt'
 let g:notes_directories = ['~/dev/notes']
 let mapleader = " "
-nmap <silent> <C-s> :w<cr>
+nmap <silent>s  :w<cr>
 map z mZ
 map zz `Z
 map tg :cd ~/dev/growers-ui/<cr>
@@ -94,13 +93,7 @@ let g:EasyMotion_smartcase=1
 map <leader> <Plug>(easymotion-prefix)
 map <leader>f <Plug>(easymotion-bd-f)
 nmap f <Plug>(easymotion-bd-f)
-nmap <leader>f <Plug>(easymotion-overwin-f)
-nmap <leader>s <Plug>(easymotion-overwin-f2)
-map <leader>l <Plug>(easymotion-bd-jk)
-nmap <leader>l <Plug>(easymotion-overwin-line)
-map  <leader>w <Plug>(easymotion-bd-w)
 map <leader>z :LiteDFMToggle<CR>
-nmap <leader><leader>w <Plug>(easymotion-overwin-w)
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "<C-g>u\<CR>""
 inoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 inoremap <expr> <M-,> pumvisible() ? '<C-n>' :'<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
