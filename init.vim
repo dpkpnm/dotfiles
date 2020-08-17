@@ -12,10 +12,13 @@ set clipboard=unnamedplus
 set mouse=
 set t_Co=256
 set background=dark
-set backup writebackup backupdir=~/dev/backup
+"set backup writebackup backupdir=~/dev/backup
+set completeopt=longest,menuone
 au BufWritePre * let &bex ='-'.strftime("%m%d%H%M")
 
 call plug#begin('~/.vim/plugged')
+  Plug 'wellle/targets.vim'
+  Plug 'airblade/vim-gitgutter'
   Plug 'fergdev/vim-cursor-hist'
   Plug 'bilalq/lite-dfm'
   Plug 'jiangmiao/auto-pairs'
@@ -47,6 +50,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'easymotion/vim-easymotion'
   Plug 'rhysd/git-messenger.vim'
   Plug 'kdheepak/lazygit.vim', { 'branch': 'nvim-v0.4.3' } 
+  Plug 'ruanyl/vim-gh-line'
+  Plug 'justinmk/vim-sneak'
+  Plug 'machakann/vim-highlightedyank'
 call plug#end()
  
 syntax match notesQuestion /\(^\s*?.*\n\)\+/ contains=@notesInline
@@ -57,11 +63,8 @@ syntax match notesEvent /\(^\s*@.*\n\)\+/ contains=@notesInline
 syntax match notesScheduled /\(^\s*<.*\n\)\+/ contains=@notesInline
 let g:notes_suffix = '.txt'
 let g:notes_directories = ['~/dev/notes']
-inoremap <expr> j ((pumvisible())?("\<C-n>"):("j"))
-inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
-inoremap <expr> <cr> ((pumvisible())?("\<C-n><C-y>"):("\<cr>"))
 let mapleader = " "
-nmap s :w<cr>
+nmap <silent> <C-s> :w<cr>
 map z mZ
 map zz `Z
 map tg :cd ~/dev/growers-ui/<cr>
@@ -70,14 +73,11 @@ map ti :e ~/dev/dotfiles/init.vim<cr>
 map tb :Buffers<cr>
 map ts :w<cr>:so %<cr>
 map th :History<cr>
-map tl :LazyGit<cr>
-map tt :bn<cr>
+map tt g;
 map tx :bd!<cr>   
 map tv :vsp<cr>:bp<cr>
 map to :only<cr>
 
-inoremap <expr> j ((pumvisible())?("\<C-n>"):("j"))
-inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
 nnoremap <silent> <C-p> :FZF<cr>
 nnoremap <silent> <C-b> :Buffers<cr>
 nnoremap <silent> <C-l> :LazyGit<cr>
@@ -99,11 +99,31 @@ nmap <leader>s <Plug>(easymotion-overwin-f2)
 map <leader>l <Plug>(easymotion-bd-jk)
 nmap <leader>l <Plug>(easymotion-overwin-line)
 map  <leader>w <Plug>(easymotion-bd-w)
-map <leader>z :LiteDFM<CR>
+map <leader>z :LiteDFMToggle<CR>
 nmap <leader><leader>w <Plug>(easymotion-overwin-w)
-let g:camelcasemotion_key = '<leader>'
-
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "<C-g>u\<CR>""
+inoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+inoremap <expr> <M-,> pumvisible() ? '<C-n>' :'<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+inoremap <expr> <C-Space> (pumvisible() ? (col('.') > 1 ? '<Esc>i<Right>' : '<Esc>i') : '') .
+            \ '<C-x><C-o><C-r>=pumvisible() ? "\<lt>C-n>\<lt>C-p>\<lt>Down>" : ""<CR>'
+inoremap <expr> <S-Space> (pumvisible() ? (col('.') > 1 ? '<Esc>i<Right>' : '<Esc>i') : '') .
+            \ '<C-x><C-u><C-r>=pumvisible() ? "\<lt>C-n>\<lt>C-p>\<lt>Down>" : ""<CR>'
 nmap <leader>o <Plug>(fzf-complete-path)	
+"inoremap <expr> <C-t> fzf#vim#complete({'source': map(complete_info().items, "v:val.word")})
+imap <C-f> <plug>(fzf-complete-line)
+function! s:list_buffers()
+  redir => list
+  silent ls
+  redir END
+  return split(list, "\n")
+endfunction
+
+function! s:delete_buffers(lines)
+  execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
+endfunction
+ 
+command! BD call fzf#run(fzf#wrap({'source': s:list_buffers(),'sink*': { lines -> s:delete_buffers(lines) },'options': '--multi --reverse --bind ctrl-a:select-all+accept'}))
+
 colorscheme gruvbox
 hi notesQuestion ctermfg=163
 hi notesImportant ctermfg=9
@@ -111,3 +131,20 @@ hi notesPriority ctermfg=166
 hi notesAction ctermfg=14
 hi notesEvent ctermfg=10
 hi notesScheduled ctermfg=11
+
+function! PInsert2(item)
+	let @z=a:item
+	norm "zp
+	call feedkeys('a')
+endfunction
+
+function! CompleteInf()
+	let nl=[]
+	let l=complete_info()
+	for k in l['items']
+		call add(nl, k['word']. ' : ' .k['info'] . ' '. k['menu'] )
+	endfor 
+	call fzf#vim#complete(fzf#wrap({ 'source': nl,'reducer': { lines -> split(lines[0], '\zs :')[0] },'sink':function('PInsert2')}))
+endfunction 
+
+imap <c-a> <CMD>:call CompleteInf()<CR>
