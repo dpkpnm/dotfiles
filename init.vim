@@ -17,9 +17,8 @@ set completeopt=longest,menuone
 au BufWritePre * let &bex ='-'.strftime("%m%d%H%M")
 
 call plug#begin('~/.vim/plugged')
-  Plug 'wellle/targets.vim'
-  Plug 'airblade/vim-gitgutter'
-  " testing application
+    Plug 'MarcWeber/vim-addon-mw-utils' "required for snipmate
+    Plug 'tomtom/tlib_vim' "required for snipmate
   Plug 'fergdev/vim-cursor-hist'
   Plug 'bilalq/lite-dfm'
   Plug 'jiangmiao/auto-pairs'
