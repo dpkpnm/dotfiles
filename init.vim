@@ -50,10 +50,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'easymotion/vim-easymotion'
   Plug 'rhysd/git-messenger.vim'
   Plug 'kdheepak/lazygit.vim', { 'branch': 'nvim-v0.4.3' } 
-  Plug 'ruanyl/vim-gh-line'
-  " Plug 'justinmk/vim-sneak'
-  Plug 'machakann/vim-highlightedyank'
+  Plug 'wellle/targets.vim'
 call plug#end()
+autocmd FileType javascript,javascriptreact,typescript,typescriptreact setlocal commentstring={/*\ %s\ */}
  
 syntax match notesQuestion /\(^\s*?.*\n\)\+/ contains=@notesInline
 syntax match notesImportant /\(^\s*!.*\n\)\+/ contains=@notesInline
@@ -94,14 +93,18 @@ let g:EasyMotion_smartcase=1
 map <leader> <Plug>(easymotion-prefix)
 map <leader>f <Plug>(easymotion-bd-f)
 nmap f <Plug>(easymotion-bd-f)
-map <leader>z :LiteDFMToggle<CR>
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "<C-g>u\<CR>""
-inoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-inoremap <expr> <M-,> pumvisible() ? '<C-n>' :'<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-inoremap <expr> <C-Space> (pumvisible() ? (col('.') > 1 ? '<Esc>i<Right>' : '<Esc>i') : '') .
-            \ '<C-x><C-o><C-r>=pumvisible() ? "\<lt>C-n>\<lt>C-p>\<lt>Down>" : ""<CR>'
-inoremap <expr> <S-Space> (pumvisible() ? (col('.') > 1 ? '<Esc>i<Right>' : '<Esc>i') : '') .
-            \ '<C-x><C-u><C-r>=pumvisible() ? "\<lt>C-n>\<lt>C-p>\<lt>Down>" : ""<CR>'
+nmap <leader>f <Plug>(easymotion-overwin-f)
+nmap <leader>s <Plug>(easymotion-overwin-f2)
+map <leader>l <Plug>(easymotion-bd-jk)
+nmap <leader>l <Plug>(easymotion-overwin-line)
+map  <leader>w <Plug>(easymotion-bd-w)
+map <leader>z :LiteDFM<CR>
+nmap <leader><leader>w <Plug>(easymotion-overwin-w)
+let g:camelcasemotion_key = '<leader>'
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
 nmap <leader>o <Plug>(fzf-complete-path)	
 "inoremap <expr> <C-t> fzf#vim#complete({'source': map(complete_info().items, "v:val.word")})
 imap <C-f> <plug>(fzf-complete-line)
