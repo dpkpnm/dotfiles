@@ -18,6 +18,7 @@ au BufWritePre * let &bex ='-'.strftime("%m%d%H%M")
 
 call plug#begin('~/.vim/plugged')
     Plug 'MarcWeber/vim-addon-mw-utils' "required for snipmate
+    test
     Plug 'tomtom/tlib_vim' "required for snipmate
   Plug 'fergdev/vim-cursor-hist'
   Plug 'bilalq/lite-dfm'
