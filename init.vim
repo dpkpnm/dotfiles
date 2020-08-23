@@ -19,6 +19,7 @@ au BufWritePre * let &bex ='-'.strftime("%m%d%H%M")
 call plug#begin('~/.vim/plugged')
   Plug 'wellle/targets.vim'
   Plug 'airblade/vim-gitgutter'
+  " testing application
   Plug 'fergdev/vim-cursor-hist'
   Plug 'bilalq/lite-dfm'
   Plug 'jiangmiao/auto-pairs'
