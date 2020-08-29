@@ -1,22 +1,31 @@
 set nocompatible
 syntax on
-set number rnu
+set hidden
+set autoread
 set selectmode+=mouse
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 set nohlsearch
 set scrolloff=15
+set noruler
 set noswapfile
 set nofoldenable 
 set noerrorbells
 set clipboard=unnamedplus
-set mouse=
+set incsearch
+set ignorecase
+set mouse=a
 set t_Co=256
 set background=dark
+set cursorline
+set cmdheight=1
+set noconfirm
 "set backup writebackup backupdir=~/dev/backup
-set completeopt=longest,menuone
+"" set completeopt=longest,menuone
 au BufWritePre * let &bex ='-'.strftime("%m%d%H%M")
 
 call plug#begin('~/.vim/plugged')
+  Plug 'romainl/vim-qf'
+  Plug 'diepm/vim-rest-console'
   Plug 'wellle/targets.vim'
   Plug 'airblade/vim-gitgutter'
   Plug 'fergdev/vim-cursor-hist'
@@ -52,8 +61,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'ruanyl/vim-gh-line'
   " Plug 'justinmk/vim-sneak'
   Plug 'machakann/vim-highlightedyank'
+  Plug 'sainnhe/gruvbox-material'
 call plug#end()
- 
 syntax match notesQuestion /\(^\s*?.*\n\)\+/ contains=@notesInline
 syntax match notesImportant /\(^\s*!.*\n\)\+/ contains=@notesInline
 syntax match notesPriority /\(^\s*\*.*\n\)\+/ contains=@notesInline
@@ -63,6 +72,9 @@ syntax match notesScheduled /\(^\s*<.*\n\)\+/ contains=@notesInline
 let g:notes_suffix = '.txt'
 let g:notes_directories = ['~/dev/notes']
 let mapleader = " "
+
+
+autocmd FileType dirvish nnoremap <buffer> d :!rm<cr>
 nmap <silent>s  :w<cr>
 map z mZ
 map zz `Z
@@ -78,9 +90,13 @@ map tv :vsp<cr>:bp<cr>
 map to :only<cr>
 
 nnoremap <silent> <C-p> :FZF<cr>
+nnoremap <silent> <C-q> :q<cr>
+nnoremap <silent> <C-h> :Maps<cr>
 nnoremap <silent> <C-b> :Buffers<cr>
+nnoremap <silent> <C-f> :GF?<cr>
 nnoremap <silent> <C-l> :LazyGit<cr>
-nnoremap <silent> <C-g> :Rg<cr>
+nnoremap <silent> <C-g> :Rg <c-r><c-w><cr>
+nnoremap <silent> <leader>g :Rg <cr>
 nnoremap <silent> <C-x> :BD<cr>
 nnoremap <silent> <C-{> :bp<cr>
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -90,9 +106,11 @@ nmap <silent>gm <Plug>(git-messenger)
 nnoremap <silent> <C-n> :<C-u>exe v:count ? v:count . 'b' : 'b' . (bufloaded(0) ? '#' : 'n')<CR>
 inoremap <buffer> > ></<C-x><C-o><C-y><C-o>%<CR><C-o>O
 let g:EasyMotion_smartcase=1
+map <silent> <leader><leader> :Fern . -drawer -toggle -keep<cr>
 map <leader> <Plug>(easymotion-prefix)
-map <leader>f <Plug>(easymotion-bd-f)
-nmap f <Plug>(easymotion-bd-f)
+map <leader>/ <Plug>(easymotion-bd-w)
+nmap <leader>/ <Plug>(easymotion-overwin-w)
+nmap f <Plug>(easymotion-overwin-f)
 map <leader>z :LiteDFMToggle<CR>
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "<C-g>u\<CR>""
 inoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
