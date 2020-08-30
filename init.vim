@@ -1,36 +1,13 @@
-set nocompatible
+set nocompatible hidden autoread nohlsearch noruler noswapfile nofoldenable noerrorbells incsearch ignorecase cursorline noconfirm rnu tabstop=2 softtabstop=2 shiftwidth=2 expandtab scrolloff=15 clipboard=unnamedplus t_Co=256 background=dark cmdheight=1 selectmode+=mouse
 syntax on
-set hidden
-set autoread
-set selectmode+=mouse
-set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-set nohlsearch
-set scrolloff=15
-set noruler
-set noswapfile
-set nofoldenable 
-set noerrorbells
-set clipboard=unnamedplus
-set incsearch
-set ignorecase
-set mouse=a
-set t_Co=256
-set background=dark
-set cursorline
-set cmdheight=1
-set noconfirm
-"set backup writebackup backupdir=~/dev/backup
-"" set completeopt=longest,menuone
-au BufWritePre * let &bex ='-'.strftime("%m%d%H%M")
 
 call plug#begin('~/.vim/plugged')
-  Plug 'romainl/vim-qf'
   Plug 'diepm/vim-rest-console'
+  Plug 'sainnhe/sonokai'
   Plug 'wellle/targets.vim'
   Plug 'airblade/vim-gitgutter'
-  Plug 'fergdev/vim-cursor-hist'
   Plug 'bilalq/lite-dfm'
-  Plug 'jiangmiao/auto-pairs'
+	Plug 'xolox/vim-misc'
 	Plug 'tpope/vim-surround'
   Plug 'tpope/vim-repeat'
   Plug 'morhetz/gruvbox'
@@ -40,17 +17,15 @@ call plug#begin('~/.vim/plugged')
   Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
     let g:prettier#autoformat = 1
     let g:prettier#autoformat_require_pragma = 0
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
     let $FZF_DEFAULT_OPTS = '--layout=reverse'
-    let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.6, 'highlight': 'Comment', 'border':'sharp'} }
+    " let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.6, 'highlight': 'Comment', 'border':'sharp'} }
   Plug 'antoinemadec/coc-fzf'
-  Plug 'MattesGroeger/vim-bookmarks'
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 	Plug 'pangloss/vim-javascript'    " JavaScript support
 	Plug 'HerringtonDarkholme/yats.vim'
 	Plug 'jparise/vim-graphql'        " GraphQL syntaxPlug 'morhetz/gruvbox'
 	Plug 'neoclide/coc.nvim' , { 'branch' : 'release' }
-  Plug 'xolox/vim-misc'
   Plug 'xolox/vim-notes'
   Plug 'xolox/vim-session'
     let g:session_autosave='yes'
@@ -59,10 +34,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'rhysd/git-messenger.vim'
   Plug 'kdheepak/lazygit.vim', { 'branch': 'nvim-v0.4.3' } 
   Plug 'ruanyl/vim-gh-line'
-  " Plug 'justinmk/vim-sneak'
   Plug 'machakann/vim-highlightedyank'
-  Plug 'sainnhe/gruvbox-material'
+  Plug 'tpope/vim-eunuch'
 call plug#end()
+
 syntax match notesQuestion /\(^\s*?.*\n\)\+/ contains=@notesInline
 syntax match notesImportant /\(^\s*!.*\n\)\+/ contains=@notesInline
 syntax match notesPriority /\(^\s*\*.*\n\)\+/ contains=@notesInline
@@ -73,9 +48,6 @@ let g:notes_suffix = '.txt'
 let g:notes_directories = ['~/dev/notes']
 let mapleader = " "
 
-
-autocmd FileType dirvish nnoremap <buffer> d :!rm<cr>
-nmap <silent>s  :w<cr>
 map z mZ
 map zz `Z
 map tg :cd ~/dev/growers-ui/<cr>
@@ -88,7 +60,12 @@ map tt g;
 map tx :bd!<cr>   
 map tv :vsp<cr>:bp<cr>
 map to :only<cr>
+nnoremap 8 *
 
+nnoremap <silent> <C-a> <plug>(fzf-complete-line)
+nnoremap <silent> <C-c> <esc>yy
+nnoremap <silent> <C-v> <esc>p 
+nnoremap <silent> <C-s> <esc>:w<cr> 
 nnoremap <silent> <C-p> :FZF<cr>
 nnoremap <silent> <C-q> :q<cr>
 nnoremap <silent> <C-h> :Maps<cr>
@@ -98,7 +75,8 @@ nnoremap <silent> <C-l> :LazyGit<cr>
 nnoremap <silent> <C-g> :Rg <c-r><c-w><cr>
 nnoremap <silent> <leader>g :Rg <cr>
 nnoremap <silent> <C-x> :BD<cr>
-nnoremap <silent> <C-{> :bp<cr>
+nnoremap <silent> <C-[> :bp<cr>
+nnoremap <silent> <C-]> :bn<cr>
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
@@ -135,7 +113,7 @@ endfunction
  
 command! BD call fzf#run(fzf#wrap({'source': s:list_buffers(),'sink*': { lines -> s:delete_buffers(lines) },'options': '--multi --reverse --bind ctrl-a:select-all+accept'}))
 
-colorscheme gruvbox
+colorscheme gruvbox 
 hi notesQuestion ctermfg=163
 hi notesImportant ctermfg=9
 hi notesPriority ctermfg=166
