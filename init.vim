@@ -1,4 +1,4 @@
-set nocompatible hidden autoread nohlsearch noruler noswapfile nofoldenable noerrorbells incsearch ignorecase cursorline noconfirm rnu nu tabstop=2 softtabstop=2 shiftwidth=2 expandtab scrolloff=15 clipboard=unnamedplus t_Co=256 background=dark cmdheight=1 selectmode+=mouse
+set nocompatible nu hidden autoread nohlsearch noruler noswapfile nofoldenable noerrorbells incsearch ignorecase cursorline noconfirm tabstop=2 softtabstop=2 shiftwidth=2 expandtab scrolloff=15 clipboard=unnamedplus t_Co=256 background=dark cmdheight=1 selectmode+=mouse
 set foldmethod=indent
 syntax on
 call plug#begin('~/.vim/plugged')
@@ -82,9 +82,8 @@ nnoremap <silent> <C-h> :Maps<cr>
 nnoremap <silent> <C-b> :Buffers<cr>
 nnoremap <silent> <C-f> :GF?<cr>
 nnoremap <silent> <C-l> :LazyGit<cr>
-nnoremap <silent> <C-g> :Rg <c-r><c-w><cr>
-nnoremap <silent> <leader>g :Rg <cr>
-imap <leader><leader> <esc>:update <cr>
+nnoremap <silent> <leader>g :Rg <c-r><c-w><cr>
+nnoremap <silent> <C-g> :Rg <cr>
 nnoremap <silent> <C-x> :BD<cr>
 map / <Plug>(easymotion-sn)
 map <silent> gy <Plug>(coc-type-definition)
@@ -154,4 +153,8 @@ function! CompleteInf()
 endfunction 
 
 imap <c-a> <CMD>:call CompleteInf()<CR>
-
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \ "rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1,
+  \ fzf#vim#with_preview('right','ctrl-a'), <bang>0)
+let g:fzf_preview_window = ''
