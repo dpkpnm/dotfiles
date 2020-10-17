@@ -1,20 +1,19 @@
 set nocompatible hidden autoread nohlsearch noruler noswapfile nofoldenable noerrorbells incsearch ignorecase cursorline noconfirm rnu nu tabstop=2 softtabstop=2 shiftwidth=2 expandtab scrolloff=15 clipboard=unnamedplus t_Co=256 background=dark cmdheight=1 selectmode+=mouse
 set foldmethod=indent
 syntax on
+set completeopt+=noselect
+ set shortmess+=c   " Shut off completion messages
+  set belloff+=ctrlg
+let g:mucomplete#enable_auto_at_startup = 1
+let g:fzf_layout = { 'window': '10split enew' }
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 call plug#begin('~/.vim/plugged')
-  Plug 'voldikss/vim-floaterm'
-  let g:floaterm_keymap_toggle = '<c-t>'
-  Plug 'leafOfTree/vim-svelte-plugin'  
-  Plug 'diepm/vim-rest-console'
-  Plug 'sainnhe/sonokai'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'patstockwell/vim-monokai-tasty'
+  Plug 'pechorin/any-jump.vim'
   Plug 'wellle/targets.vim'
   Plug 'airblade/vim-gitgutter'
-  Plug 'bilalq/lite-dfm'
-	Plug 'xolox/vim-misc'
-	Plug 'tpope/vim-surround'
-  Plug 'tpope/vim-repeat'
   Plug 'morhetz/gruvbox'
-	Plug 'tpope/vim-commentary'
   Plug 'justinmk/vim-dirvish'
     let dirvish_mode = ':sort ,^.*/,'
   Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
@@ -24,11 +23,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'junegunn/fzf.vim'
     let $FZF_DEFAULT_OPTS = '--layout=reverse'
     let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8, 'highlight': 'Comment', 'border':'sharp'} }
-  Plug 'antoinemadec/coc-fzf'
-	Plug 'pangloss/vim-javascript'    " JavaScript support
-	Plug 'HerringtonDarkholme/yats.vim'
-	Plug 'jparise/vim-graphql'        " GraphQL syntaxPlug 'morhetz/gruvbox'
-	Plug 'neoclide/coc.nvim' , { 'branch' : 'release' }
   Plug 'xolox/vim-notes'
   Plug 'xolox/vim-session'
     let g:session_autosave='yes'
@@ -38,26 +32,18 @@ call plug#begin('~/.vim/plugged')
   Plug 'kdheepak/lazygit.vim', { 'branch': 'nvim-v0.4.3' } 
   Plug 'ruanyl/vim-gh-line'
   Plug 'machakann/vim-highlightedyank'
-  Plug 'tpope/vim-eunuch'
+Plug 'lifepillar/vim-mucomplete'
 call plug#end()
 
-syntax match notesQuestion /\(^\s*?.*\n\)\+/ contains=@notesInline
-syntax match notesImportant /\(^\s*!.*\n\)\+/ contains=@notesInline
-syntax match notesPriority /\(^\s*\*.*\n\)\+/ contains=@notesInline
-syntax match notesAction /\(^\s*>.*\n\)\+/ contains=@notesInline
-syntax match notesEvent /\(^\s*@.*\n\)\+/ contains=@notesInline
-syntax match notesScheduled /\(^\s*<.*\n\)\+/ contains=@notesInline
-let g:notes_suffix = '.txt'
-let g:notes_directories = ['~/dev/notes']
 let mapleader = " "
-
 map ea :e ~/dev/notes/092020.txt<cr>
-map eg :cd ~/dev/growers-ui/<cr>
+map eg :cd ~/dev/formula/<cr>
 map en :cd ~/dev/notifications-api/<cr>
 map ei :e ~/dev/dotfiles/init.vim<cr>
 map eb :Buffers<cr>
 map es :w<cr>:so %<cr>
 map eh :History<cr>
+map ej :AnyJump<cr>
 map et g;
 map ex :bd!<cr>   
 map ev :vsp<cr>:bp<cr>
@@ -76,15 +62,14 @@ nnoremap <silent> <C-c> <esc>yy
 nnoremap <silent> <C-e> <esc>:FloatermNew --height=0.8 --width=0.8 lf<cr>
 nnoremap <silent> <C-v> <esc>p
 nnoremap <silent> <C-s> <esc>:w<cr> 
-nnoremap <silent> <C-p> :FZF<cr>
+nnoremap <silent> <C-p> :GitFiles<cr>
 nnoremap <silent> <C-q> :q<cr>
 nnoremap <silent> <C-h> :Maps<cr>
 nnoremap <silent> <C-b> :Buffers<cr>
 nnoremap <silent> <C-f> :GF?<cr>
 nnoremap <silent> <C-l> :LazyGit<cr>
-nnoremap <silent> <C-g> :Rg <c-r><c-w><cr>
-nnoremap <silent> <leader>g :Rg <cr>
-imap <leader><leader> <esc>:update <cr>
+nnoremap <silent> <leader>g :Rg <c-r><c-w><cr>
+nnoremap <silent> <C-g> :Rg <cr>
 nnoremap <silent> <C-x> :BD<cr>
 map / <Plug>(easymotion-sn)
 map <silent> gy <Plug>(coc-type-definition)
@@ -104,8 +89,6 @@ inoremap <expr> <C-Space> (pumvisible() ? (col('.') > 1 ? '<Esc>i<Right>' : '<Es
             \ '<C-x><C-o><C-r>=pumvisible() ? "\<lt>C-n>\<lt>C-p>\<lt>Down>" : ""<CR>'
 inoremap <expr> <S-Space> (pumvisible() ? (col('.') > 1 ? '<Esc>i<Right>' : '<Esc>i') : '') .
             \ '<C-x><C-u><C-r>=pumvisible() ? "\<lt>C-n>\<lt>C-p>\<lt>Down>" : ""<CR>'
-nmap <leader>o <Plug>(fzf-complete-path)	
-"inoremap <expr> <C-t> fzf#vim#complete({'source': map(complete_info().items, "v:val.word")})
 imap <C-f> <plug>(fzf-complete-line)
 function! s:list_buffers()
   redir => list
@@ -119,6 +102,7 @@ function! s:delete_buffers(lines)
 endfunction
  
 command! BD call fzf#run(fzf#wrap({'source': s:list_buffers(),'sink*': { lines -> s:delete_buffers(lines) },'options': '--multi --reverse --bind ctrl-a:select-all+accept'}))
+
 
 let g:gruvbox_italic=1
 let &t_ZH="\e[3m"
@@ -135,23 +119,45 @@ nnoremap <S-Tab> <<_
 inoremap <S-Tab> <C-D>
 vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv
-nnoremap c "_c
-vnoremap c "_c
 
-function! PInsert2(item)
-	let @z=a:item
-  norm "zp
-	call feedkeys('a')
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   "rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview('right', 'ctrl-/'), <bang>0)
+function! s:format_qf_line(line)
+  let parts = split(a:line, ':')
+  return { 'filename': parts[0]
+         \,'lnum': parts[1]
+         \,'col': parts[2]
+         \,'text': join(parts[3:], ':')
+         \ }
 endfunction
 
-function! CompleteInf()
-	let nl=[]
-	let l=complete_info()
-	for k in l['items']
-		call add(nl, k['word']. ' : ' .k['info'] . ' '. k['menu'] )
-	endfor 
-	call fzf#vim#complete(fzf#wrap({ 'source': nl,'reducer': { lines -> split(lines[0], '\zs :')[0] },'sink':function('PInsert2')}))
-endfunction 
+function! s:qf_to_fzf(key, line) abort
+  let l:filepath = expand('#' . a:line.bufnr . ':p')
+  return l:filepath . ':' . a:line.lnum . ':' . a:line.col . ':' . a:line.text
+endfunction
 
-imap <c-a> <CMD>:call CompleteInf()<CR>
+function! s:fzf_to_qf(filtered_list) abort
+  let list = map(a:filtered_list, 's:format_qf_line(v:val)')
+  if len(list) > 0
+    call setqflist(list)
+    copen
+  endif
+endfunction
 
+command! FzfQF call fzf#run({
+      \ 'source': map(getqflist(), function('<sid>qf_to_fzf')),
+      \ 'down':   '20',
+      \ 'sink*':   function('<sid>fzf_to_qf'),
+      \ 'options': '--reverse --multi --bind=ctrl-a:select-all,ctrl-d:deselect-all --prompt "quickfix> "',
+      \ })
+function! s:make_sentence(lines)
+  return substitute(join(a:lines), ' ', '\=toupper(submatch(0))', '').' '
+endfunction
+
+inoremap <expr> <c-k> fzf#vim#complete({
+  \ 'source':  'cat ~/dev/tinybind/words.txt',
+  \ 'reducer': function('<sid>make_sentence'),
+  \ 'options': '--multi --reverse ',
+  \ })
