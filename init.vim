@@ -32,8 +32,12 @@ nnoremap <silent> <C-b> :Buffers<cr>
 nnoremap <silent> <C-f> :GF?<cr
 nnoremap <silent> <C-l> :LazyGit<cr>
 nnoremap <silent> <C-s> :w<cr> :so %<cr>
-map <silent> ex :bd!<cr>
-
+nnoremap <leader>s :w<cr>
+inoremap <leader>s <C-c>:w<cr>
+nnoremap <leader>e :bd!<cr>
+nnoremap <leader><leader> <C-^>
+nnoremap <Tab> :bnext<cr>
+nnoremap <S-Tab> :bprevious<cr>
 
 let g:gruvbox_italic=1
 colorscheme gruvbox
