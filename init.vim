@@ -52,9 +52,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'rhysd/git-messenger.vim'
   Plug 'kdheepak/lazygit.vim', { 'branch': 'nvim-v0.4.3' } 
   Plug 'ruanyl/vim-gh-line'
+	Plug 'matze/vim-move'
   " Plug 'machakann/vim-highlightedyank'
 call plug#end()
-
+let g:move_key_modifier = 'C'
 let g:floaterm_keymap_toggle = '<c-t>'
 let g:notes_suffix = '.txt'
 let g:notes_directories = ['~/dev/notes']
@@ -64,6 +65,10 @@ let $FZF_DEFAULT_OPTS = '--layout=reverse'
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8, 'highlight': 'Comment', 'border':'sharp'} }
 let g:prettier#autoformat = 1
 let g:prettier#autoformat_require_pragma = 0
+let g:minisnip_trigger = '<C-j>'
+let g:gruvbox_italic=1
+let &t_ZH="\e[3m"
+ let &t_ZR="\e[23m"
 let mapleader = " "
 
 map ea :e ~/dev/notes/092020.txt<cr>
@@ -93,20 +98,19 @@ nnoremap <silent> <C-e> <esc>:FloatermNew --height=0.8 --width=0.8 lf<cr>
 nnoremap <silent> <C-v> <esc>p
 nnoremap <silent> <C-s> <esc>:w<cr> 
 nnoremap <silent> <C-p> :FZF<cr>
-nnoremap <silent> <C-q> :q<cr>
+nnoremap <silent> <C-g> :Rg <cr>
+nnoremap <silent> <C-x> :bufdo bd<cr>
 nnoremap <silent> <C-h> :History<cr>
 nnoremap <silent> <C-b> :Buffers<cr>
 nnoremap <silent> <C-f> :GF?<cr>
-nnoremap <silent> <C-l> :LazyGit<cr>
+nnoremap <silent> <C-z> :LazyGit<cr>
 nnoremap <silent> <C-\> <c-^>
 inoremap <silent> <C-\> <esc><c-^>i
 nnoremap <silent> <C-]> :bp<cr>
 inoremap <silent> <C-]> :bp<cr>
-nnoremap <silent> <C-l> :LazyGit<cr>
+inoremap <silent> <A-h> <esc>vh
 nnoremap <silent> <leader>g :Rg <c-r><c-w><cr>
 nnoremap <leader>e :bd!<cr>
-nnoremap <silent> <C-g> :Rg <cr>
-nnoremap <silent> <C-x> :bufdo bd<cr>
 nnoremap <silent> - <esc>:FloatermNew --height=0.8 --width=0.8 lf<cr>
 map / <Plug>(easymotion-sn)
 map <silent> gy <Plug>(coc-type-definition)
@@ -119,15 +123,9 @@ map f <Plug>(easymotion-overwin-f)
 map t <Plug>(easymotion-overwin-t)
 map <leader>z :LiteDFMToggle<CR>
 "inoremap <expr> <C-t> fzf#vim#complete({'source': map(complete_info().items, "v:val.word")})
-let g:minisnip_trigger = '<C-j>'
-let g:gruvbox_italic=1
-let &t_ZH="\e[3m"
-let &t_ZR="\e[23m"
 colorscheme gruvbox 
 nnoremap <Tab> >>_
 nnoremap <S-Tab> <<_
-inoremap <S-Tab> <C-D>
 vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv
 nnoremap c "_c
-vnoremap c "_c
