@@ -25,6 +25,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'ervandew/supertab'
 	Plug 'haya14busa/incsearch.vim'
 	Plug 'haya14busa/vim-easyoperator-line'
+	Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 augroup LuaHighlight
@@ -56,6 +57,9 @@ map ei :e ~/dev/dotfiles/init.vim<cr>
 map ex :bd!<cr> 
 map ev :vsp<cr>:bp<cr>
 map eo :only<cr>
+map en :Note 112020<cr>
+nmap <leader><leader> <Plug>(GitGutterNextHunk)
+nmap gp <Plug>(GitGutterPrevHunk)
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
@@ -63,6 +67,7 @@ map f <Plug>(easymotion-bd-f)
 map t <Plug>(easymotion-bd-t)
 noremap 8 *
 noremap 5 %
+nnoremap <silent> - <esc>:FloatermNew --height=0.9 --width=0.9 lf<cr>
 
 nnoremap <silent><C-p> :FZF<cr>
 nnoremap <silent><C-g> :Rg<cr>
@@ -93,3 +98,47 @@ let g:prettier#autoformat = 1
 let g:prettier#autoformat_require_pragma = 0
 let g:EasyMotion_smartcase=1
 let g:any_jump_grouping_enabled=1
+
+function! NextHunkAllBuffers()
+  let line = line('.')
+  GitGutterNextHunk
+  if line('.') != line
+    return
+  endif
+
+  let bufnr = bufnr('')
+  while 1
+    bnext
+    if bufnr('') == bufnr
+      return
+    endif
+    if !empty(GitGutterGetHunks())
+      1
+      GitGutterNextHunk
+      return
+    endif
+  endwhile
+endfunction
+
+function! PrevHunkAllBuffers()
+  let line = line('.')
+  GitGutterPrevHunk
+  if line('.') != line
+    return
+  endif
+
+  let bufnr = bufnr('')
+  while 1
+    bprevious
+    if bufnr('') == bufnr
+      return
+    endif
+    if !empty(GitGutterGetHunks())
+      normal! G
+      GitGutterPrevHunk
+      return
+    endif
+  endwhile
+endfunction
+nmap <silent> ]c :call NextHunkAllBuffers()<CR>
+nmap <silent> [c :call PrevHunkAllBuffers()<CR>
