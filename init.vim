@@ -26,6 +26,8 @@ call plug#begin('~/.vim/plugged')
 	Plug 'haya14busa/incsearch.vim'
 	Plug 'haya14busa/vim-easyoperator-line'
 	Plug 'airblade/vim-gitgutter'
+	Plug 'alvan/vim-closetag'
+	Plug 'inkarkat/vim-UnconditionalPaste'
 call plug#end()
 
 augroup LuaHighlight
@@ -99,6 +101,10 @@ let g:prettier#autoformat_require_pragma = 0
 let g:EasyMotion_smartcase=1
 let g:any_jump_grouping_enabled=1
 
+syntax enable
+colorscheme gruvbox
+set background=dark
+
 function! NextHunkAllBuffers()
   let line = line('.')
   GitGutterNextHunk
@@ -142,3 +148,8 @@ function! PrevHunkAllBuffers()
 endfunction
 nmap <silent> ]c :call NextHunkAllBuffers()<CR>
 nmap <silent> [c :call PrevHunkAllBuffers()<CR>
+
+
+let g:netrw_banner=0
+let g:netrw_list_hide='.*\.swp$'
+let g:netrw_chgwin=1
