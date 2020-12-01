@@ -2,7 +2,6 @@ call plug#begin('~/.vim/plugged')
 	Plug 'tckmn/vim-minisnip'
 	Plug 'voldikss/vim-floaterm'
 	Plug 'wellle/targets.vim'
-	Plug 'wellle/context.vim'
 	Plug 'morhetz/gruvbox'
 	Plug 'junegunn/fzf', {'dir':'~/.fzf', 'do':'./install --all'}
 	Plug 'junegunn/fzf.vim'
