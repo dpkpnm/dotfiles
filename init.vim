@@ -59,8 +59,8 @@ map ex :bd!<cr>
 map ev :vsp<cr>:bp<cr>
 map eo :only<cr>
 map en :Note 112020<cr>
+nnoremap S diw"0P
 nmap <leader><leader> <Plug>(GitGutterNextHunk)
-nmap gp <Plug>(GitGutterPrevHunk)
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
@@ -69,7 +69,10 @@ map t <Plug>(easymotion-bd-t)
 noremap 8 *
 noremap 5 %
 nnoremap <silent> - <esc>:FloatermNew --height=0.9 --width=0.9 lf<cr>
-
+nnoremap c "_c
+vnoremap c "_c
+nnoremap d "_d
+vnoremap d "_d
 nnoremap <silent><C-p> :FZF<cr>
 nnoremap <silent><C-g> :Rg<cr>
 nnoremap <silent><C-h> :History<cr>
