@@ -76,6 +76,8 @@ nnoremap <silent><C-h> :History<cr>
 nnoremap <silent><C-z> :LazyGit<cr>
 nnoremap <silent><C-b> :Buffers<cr>
 nnoremap <silent><C-f> :GF?<cr>
+nnoremap  <silent>   <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
+nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
 map s <esc>:w<cr>
 "autocomplete shortcuts
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "<CR>"
