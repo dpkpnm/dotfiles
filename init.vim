@@ -1,9 +1,10 @@
 call plug#begin('~/.vim/plugged')
+	Plug 'MattesGroeger/vim-bookmarks'
 	Plug 'tckmn/vim-minisnip'
 	Plug 'voldikss/vim-floaterm'
 	Plug 'wellle/targets.vim'
 	Plug 'morhetz/gruvbox'
-	Plug 'junegunn/fzf', {'dir':'~/.fzf', 'do':'./install --all'}
+	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 	Plug 'junegunn/fzf.vim'
 	Plug 'neoclide/coc.nvim', {'branch':'release'}
 	Plug 'xolox/vim-misc'
@@ -25,6 +26,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'haya14busa/incsearch.vim'
 	Plug 'haya14busa/vim-easyoperator-line'
 	Plug 'airblade/vim-gitgutter'
+	Plug 'ruanyl/vim-gh-line'
 	Plug 'alvan/vim-closetag'
 	Plug 'inkarkat/vim-UnconditionalPaste'
 call plug#end()
@@ -51,15 +53,25 @@ set cmdheight=1
 set foldmethod=indent
 set inccommand=split
 set completeopt=longest,menuone
+set ignorecase
+set smartcase
+set scrolloff=15
+set clipboard=unnamedplus
 syntax on
 
 " shortcuts
+map ee <esc>mA
+map ea <esc>`A
 map ei :e ~/dev/dotfiles/init.vim<cr>
 map ex :bd!<cr> 
 map ev :vsp<cr>:bp<cr>
 map eo :only<cr>
-map en :Note 112020<cr>
 nnoremap S diw"0P
+map en :Note 012021<cr>
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 nmap <leader><leader> <Plug>(GitGutterNextHunk)
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
@@ -68,6 +80,7 @@ map f <Plug>(easymotion-bd-f)
 map t <Plug>(easymotion-bd-t)
 noremap 8 *
 noremap 5 %
+noremap 5 ^ 
 nnoremap <silent> - <esc>:FloatermNew --height=0.9 --width=0.9 lf<cr>
 nnoremap c "_c
 vnoremap c "_c
@@ -79,7 +92,9 @@ nnoremap <silent><C-h> :History<cr>
 nnoremap <silent><C-z> :LazyGit<cr>
 nnoremap <silent><C-b> :Buffers<cr>
 nnoremap <silent><C-f> :GF?<cr>
-nnoremap  <silent>   <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
+nnoremap <silent><C-a> :BookmarkAnnotate<cr>
+nnoremap <silent><C-q> :call fzf#run({'source': 'cat ~/dev/scripts/annotations.txt', 'sink': 'HandleFZF', 'options':'--with-nth 2..-1'})<cr>
+nnoremap  <silent> <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:b#<CR>
 nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
 map s <esc>:w<cr>
 "autocomplete shortcuts
@@ -104,10 +119,16 @@ let g:prettier#autoformat = 1
 let g:prettier#autoformat_require_pragma = 0
 let g:EasyMotion_smartcase=1
 let g:any_jump_grouping_enabled=1
+let g:netrw_fastbrowse = 0
 
+"Remvoe netrw when it sticks around with readonly
+autocmd FileType netrw setl bufhidden=delete
 syntax enable
 colorscheme gruvbox
 set background=dark
+augroup PrettierFileDetect
+  autocmd BufNewFile,BufReadPost *.vue setfiletype vue
+augroup end
 
 function! NextHunkAllBuffers()
   let line = line('.')
@@ -157,3 +178,8 @@ nmap <silent> [c :call PrevHunkAllBuffers()<CR>
 let g:netrw_banner=0
 let g:netrw_list_hide='.*\.swp$'
 let g:netrw_chgwin=1
+
+function! HandleFZF(file)
+  execute 'e' substitute(split(a:file," ")[0],'\','', 'g')
+endfunction
+command! -nargs=1 HandleFZF :call HandleFZF(<f-args>)
