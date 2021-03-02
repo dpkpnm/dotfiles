@@ -1,5 +1,5 @@
 call plug#begin('~/.vim/plugged')
-	Plug 'MattesGroeger/vim-bookmarks'
+	" Plug 'MattesGroeger/vim-bookmarks'
 	Plug 'tckmn/vim-minisnip'
 	Plug 'voldikss/vim-floaterm'
 	Plug 'wellle/targets.vim'
@@ -29,6 +29,8 @@ call plug#begin('~/.vim/plugged')
 	Plug 'ruanyl/vim-gh-line'
 	Plug 'alvan/vim-closetag'
 	Plug 'inkarkat/vim-UnconditionalPaste'
+	Plug 'chaoren/vim-wordmotion'
+	Plug 'pbogut/fzf-mru.vim'
 call plug#end()
 
 augroup LuaHighlight
@@ -61,13 +63,14 @@ syntax on
 
 " shortcuts
 map ee <esc>mA
+map <silent> ec <esc>:bufdo bd!<cr>
 map ea <esc>`A
 map ei :e ~/dev/dotfiles/init.vim<cr>
 map ex :bd!<cr> 
 map ev :vsp<cr>:bp<cr>
 map eo :only<cr>
 nnoremap S diw"0P
-map en :Note 012021<cr>
+map en :Note 032021<cr>
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
@@ -87,13 +90,15 @@ vnoremap c "_c
 nnoremap d "_d
 vnoremap d "_d
 nnoremap <silent><C-p> :FZF<cr>
+nnoremap <silent><C-c> :FZFMru<cr>
 nnoremap <silent><C-g> :Rg<cr>
 nnoremap <silent><C-h> :History<cr>
 nnoremap <silent><C-z> :LazyGit<cr>
 nnoremap <silent><C-b> :Buffers<cr>
 nnoremap <silent><C-f> :GF?<cr>
-nnoremap <silent><C-a> :BookmarkAnnotate<cr>
+nnoremap <silent><C-a> :Bookmark<cr>
 nnoremap <silent><C-q> :call fzf#run({'source': 'cat ~/dev/scripts/annotations.txt', 'sink': 'HandleFZF', 'options':'--with-nth 2..-1'})<cr>
+nnoremap <silent><C-x> :call fzf#run({'source': 'git show --name-only --oneline', 'options':'--header-lines=1', 'sink':'e'})<cr>
 nnoremap  <silent> <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:b#<CR>
 nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
 map s <esc>:w<cr>
@@ -110,6 +115,7 @@ let mapleader=" "
 let g:move_key_modifier='C'
 let g:notes_suffix='.txt'
 let g:notes_directories=['~/dev/notes']
+let g:notes_word_boundaries=1
 let g:session_autosave='yes'
 let g:session_autoload='yes'
 let g:minisnip_trigger='<C-c>'
@@ -183,3 +189,13 @@ function! HandleFZF(file)
   execute 'e' substitute(split(a:file," ")[0],'\','', 'g')
 endfunction
 command! -nargs=1 HandleFZF :call HandleFZF(<f-args>)
+
+function! Bookmark()
+  " let curline = getline('.')
+  " call inputsave()
+  let name = input('Enter name: ')
+	call writefile([ expand('%:p') . ' ' . name], "/Users/deepakpenmetsa/dev/scripts/annotations.txt","a")
+  " call inputrestore()
+  " call setline('.', curline . ' ' . name)
+endfunction
+command! Bookmark :call Bookmark()
