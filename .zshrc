@@ -1,6 +1,4 @@
-export ZSH="/Users/deepakpenmetsa/.oh-my-zsh"
-ZSH_THEME="miloshadzic"
-plugins=(git)
+export ZSH="/Users/dpkpnm/.oh-my-zsh"
 source $ZSH/oh-my-zsh.sh
 export FZF_DEFAULT_COMMAND="fd"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -18,3 +16,5 @@ ch() {
   awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' |
   fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs open
 }
+ZSH_THEME="powerlevel10k/powerlevel10k"
+POWERLEVEL9K_MODE="nerdfont-complete"
