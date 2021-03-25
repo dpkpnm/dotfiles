@@ -1,6 +1,9 @@
 call plug#begin('~/.vim/plugged')
-	" Plug 'MattesGroeger/vim-bookmarks'
-	Plug 'tckmn/vim-minisnip'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'lewis6991/gitsigns.nvim'
+Plug 'f-person/git-blame.nvim', { 'branch': 'master' }
+	Plug 'mg979/vim-visual-multi'
+	Plug 'codota/tabnine-vim'
 	Plug 'voldikss/vim-floaterm'
 	Plug 'wellle/targets.vim'
 	Plug 'morhetz/gruvbox'
@@ -10,6 +13,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'xolox/vim-misc'
 	Plug 'xolox/vim-notes'
 	Plug 'xolox/vim-session'
+	Plug 'pangloss/vim-javascript'
 	Plug 'easymotion/vim-easymotion'
 	Plug 'kdheepak/lazygit.vim', {'branch':'nvim-v0.4.3'}
 	Plug 'matze/vim-move'
@@ -26,11 +30,12 @@ call plug#begin('~/.vim/plugged')
 	Plug 'haya14busa/incsearch.vim'
 	Plug 'haya14busa/vim-easyoperator-line'
 	Plug 'airblade/vim-gitgutter'
-	Plug 'ruanyl/vim-gh-line'
+	" Plug 'ruanyl/vim-gh-line'
 	Plug 'alvan/vim-closetag'
 	Plug 'inkarkat/vim-UnconditionalPaste'
 	Plug 'chaoren/vim-wordmotion'
 	Plug 'pbogut/fzf-mru.vim'
+	Plug 'mattn/emmet-vim'
 call plug#end()
 
 augroup LuaHighlight
@@ -60,8 +65,10 @@ set smartcase
 set scrolloff=15
 set clipboard=unnamedplus
 syntax on
+let g:context_enabled = 1
 
 " shortcuts
+inoremap jj <ESC>:w<cr>
 map ee <esc>mA
 map <silent> ec <esc>:bufdo bd!<cr>
 map ea <esc>`A
@@ -89,6 +96,13 @@ nnoremap c "_c
 vnoremap c "_c
 nnoremap d "_d
 vnoremap d "_d
+noremap <Leader>s :update<CR>
+vmap <C-c> y<Esc>i
+vmap <C-x> d<Esc>i
+imap <C-v> <Esc>pi
+imap <C-y> <Esc>ddi
+map <C-z> <Esc>
+imap <C-z> <Esc>ui
 nnoremap <silent><C-p> :FZF<cr>
 nnoremap <silent><C-c> :FZFMru<cr>
 nnoremap <silent><C-g> :Rg<cr>
@@ -101,7 +115,7 @@ nnoremap <silent><C-q> :call fzf#run({'source': 'cat ~/dev/scripts/annotations.t
 nnoremap <silent><C-x> :call fzf#run({'source': 'git show --name-only --oneline', 'options':'--header-lines=1', 'sink':'e'})<cr>
 nnoremap  <silent> <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:b#<CR>
 nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
-map s <esc>:w<cr>
+" map s <esc>:w<cr>
 "autocomplete shortcuts
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "<CR>"
 inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
@@ -199,3 +213,23 @@ function! Bookmark()
   " call setline('.', curline . ' ' . name)
 endfunction
 command! Bookmark :call Bookmark()
+
+let g:javascript_conceal_function             = "ƒ"
+let g:javascript_conceal_null                 = "ø"
+let g:javascript_conceal_this                 = "@"
+let g:javascript_conceal_return               = "⇚"
+let g:javascript_conceal_undefined            = "¿"
+let g:javascript_conceal_NaN                  = "ℕ"
+let g:javascript_conceal_prototype            = "¶"
+let g:javascript_conceal_static               = "•"
+let g:javascript_conceal_super                = "Ω"
+let g:javascript_conceal_arrow_function       = "⇒"
+let g:javascript_conceal_noarg_arrow_function = "🞅"
+let g:javascript_conceal_underscore_arrow_function = "🞅"
+
+noremap p gp
+noremap P gP
+noremap gp p
+noremap gP P
+noremap <leader>p o<Esc>p
+noremap <leader><leader>p O<Esc>p
