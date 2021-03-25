@@ -1,4 +1,5 @@
 call plug#begin('~/.vim/plugged')
+Plug 'jeetsukumaran/vim-indentwise'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'f-person/git-blame.nvim', { 'branch': 'master' }
@@ -36,12 +37,13 @@ Plug 'f-person/git-blame.nvim', { 'branch': 'master' }
 	Plug 'chaoren/vim-wordmotion'
 	Plug 'pbogut/fzf-mru.vim'
 	Plug 'mattn/emmet-vim'
+  Plug 'michaeljsmith/vim-indent-object'
 call plug#end()
 
-augroup LuaHighlight
+augroup luahighlight
 	autocmd!
-	autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
-augroup END
+	autocmd textyankpost * silent! lua require'vim.highlight'.on_yank()
+augroup end
 
 "basic settings
 set nocompatible
@@ -68,7 +70,9 @@ syntax on
 let g:context_enabled = 1
 
 " shortcuts
+inoremap kk <ESC>
 inoremap jj <ESC>:w<cr>
+map <c-j> :w<cr>
 map ee <esc>mA
 map <silent> ec <esc>:bufdo bd!<cr>
 map ea <esc>`A
@@ -202,6 +206,7 @@ let g:netrw_chgwin=1
 function! HandleFZF(file)
   execute 'e' substitute(split(a:file," ")[0],'\','', 'g')
 endfunction
+
 command! -nargs=1 HandleFZF :call HandleFZF(<f-args>)
 
 function! Bookmark()
@@ -212,6 +217,7 @@ function! Bookmark()
   " call inputrestore()
   " call setline('.', curline . ' ' . name)
 endfunction
+
 command! Bookmark :call Bookmark()
 
 let g:javascript_conceal_function             = "ƒ"
@@ -233,3 +239,18 @@ noremap gp p
 noremap gP P
 noremap <leader>p o<Esc>p
 noremap <leader><leader>p O<Esc>p
+imap cll console.log();<Esc>==ba
+noremap J j
+noremap K k
+map [- <Plug>(IndentWisePreviousLesserIndent)
+map k <Plug>(IndentWisePreviousEqualIndent)
+map [+ <Plug>(IndentWisePreviousGreaterIndent)
+map ]- <Plug>(IndentWiseNextLesserIndent)
+map j <Plug>(IndentWiseNextEqualIndent)
+map ]+ <Plug>(IndentWiseNextGreaterIndent)
+map [_ <Plug>(IndentWisePreviousAbsoluteIndent)
+map ]_ <Plug>(IndentWiseNextAbsoluteIndent)
+map [% <Plug>(IndentWiseBlockScopeBoundaryBegin)
+map ]% <Plug>(IndentWiseBlockScopeBoundaryEnd)
+
+
