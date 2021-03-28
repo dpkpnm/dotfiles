@@ -7,6 +7,10 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 set nohlsearch
+set noconfirm
+set noruler
+set autoread
+set hidden
 set nowrap
 set termguicolors
 set t_Co=256
@@ -22,19 +26,28 @@ set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 set scl=yes
 
 let mapleader = " "
+
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "<CR>"
 inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
   \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-
 inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
   \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'e
-map <leader><leader> <esc>:w!<cr>
+
+inoremap zz <esc>:w!<cr>
+map zz <esc>:w!<cr>
+map zs <esc>:so %<cr>
+map zi <esc>:PlugInstall<cr>
+map zc <esc>:PlugClean<cr>
+map zt <Plug>window:quickfix:loop
 map ee <esc>::NvimTreeToggle<CR>
 map ef <esc>:GF?<cr>
+map eh <esc>:History<cr>
 map eb <esc>:Buffers?<cr>
-map ew <esc>ci)
+map ec <esc>:bufdo bd!<cr>
+map ew ci)
 map ez <esc>:LazyGit<cr>
 map ep <esc>:FZF<cr>
+map eg <esc>:Rg<cr>
 map ea <esc>`A
 map em <esc>mA
 map ei :e ~/dev/dotfiles/init.vim<cr>
@@ -127,7 +140,7 @@ let g:nvim_tree_icons = {
     \ }
 noremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> gf <esc>:AnyJump<cr> 
 nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
@@ -135,6 +148,10 @@ nnoremap <silent> <C-n> <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> <C-p> <cmd>lua vim.lsp.diagnostic.goto_next()<CR>n
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
+augroup luahighlight
+	autocmd!
+	autocmd textyankpost * silent! lua require'vim.highlight'.on_yank()
+augroup end
 
 call plug#begin('~/.vim/plugged')
   Plug 'nvim-lua/plenary.nvim'
@@ -175,9 +192,16 @@ call plug#begin('~/.vim/plugged')
   Plug 'ervandew/supertab'
   Plug 'drmingdrmer/vim-toggle-quickfix'
   Plug 'kdheepak/lazygit.vim', {'branch':'nvim-v0.4.3'}
+  Plug 'pechorin/any-jump.vim'
+  Plug 'matze/vim-move'
 call plug#end()
 colorscheme gruvbox 
 lua require'lspconfig'.tsserver.setup{}
+
+let g:any_jump_window_width_ratio  = 0.8
+let g:any_jump_window_height_ratio = 0.8
+let g:any_jump_window_top_offset   = 2 
+
 " lua require('gitsigns').setup()
 "transparency
 hi Normal guibg=#222222 ctermbg=NONE
@@ -187,3 +211,11 @@ hi EndOfBuffer guibg=NONE ctermbg=NONE
 hi SignifySignAdd    ctermfg=green  guifg=#00ff00 cterm=NONE gui=NONE
 hi SignifySignDelete ctermfg=red  guifg=#ff0000 cterm=NONE gui=NONE
 hi SignifySignChange ctermfg=yellow  guifg=#ffff00 cterm=NONE gui=NONE
+hi Visual  guifg=#999999 guibg=#444444 gui=none
+hi Pmenu guibg=#3b3b3b ctermbg=green
+
+let g:move_key_modifier='c'
+let g:any_jump_grouping_enabled = 1 
+let g:any_jump_preview_lines_count = 1
+let g:any_jump_max_search_results = 100
+
