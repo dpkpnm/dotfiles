@@ -1,93 +1,181 @@
-set nocompatible
-set number rnu
-set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-set nohlsearch
-set scrolloff=15
-set noswapfile
-set noerrorbells
-set clipboard=unnamedplus
-set mouse=
-set t_Co=256
-set background=dark
-set backup writebackup backupdir=~/dev/backup
-au BufWritePre * let &bex ='-'.strftime("%m%d%H%M")
-
+"plugins
 call plug#begin('~/.vim/plugged')
-	Plug 'tpope/vim-surround'
-  Plug 'tpope/vim-unimpaired'
-  Plug 'tpope/vim-repeat'
-  Plug 'morhetz/gruvbox'
-	Plug 'tpope/vim-commentary'
-  Plug 'justinmk/vim-dirvish'
-    let dirvish_mode = ':sort ,^.*/,'
-  Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
-  Plug 'junegunn/fzf.vim'
-    let $FZF_DEFAULT_OPTS = '--layout=reverse'
-    let g:fzf_layout = { 'window': 'call OpenFloatingWin()' }
-  Plug 'MattesGroeger/vim-bookmarks'
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-	Plug 'kdheepak/lazygit.vim', { 'branch': 'nvim-v0.4.3' }
-	Plug 'pangloss/vim-javascript'    " JavaScript support
+	Plug 'michaeljsmith/vim-indent-object'
+	Plug 'jeetsukumaran/vim-indentwise'
+	Plug 'f-person/git-blame.nvim'
+	Plug 'tckmn/vim-minisnip'
+	Plug 'voldikss/vim-floaterm'
+	Plug 'wellle/targets.vim'
+	Plug 'morhetz/gruvbox'
+	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+	Plug 'junegunn/fzf.vim'
+	Plug 'neoclide/coc.nvim', {'branch':'release'}
+	Plug 'xolox/vim-misc'
+	Plug 'xolox/vim-notes'
+	Plug 'xolox/vim-session'
+	Plug 'easymotion/vim-easymotion'
+	Plug 'kdheepak/lazygit.vim', {'branch':'nvim-v0.4.3'}
+	Plug 'matze/vim-move'
+	Plug 'pangloss/vim-javascript'
 	Plug 'HerringtonDarkholme/yats.vim'
-	Plug 'jparise/vim-graphql'        " GraphQL syntaxPlug 'morhetz/gruvbox'
-	Plug 'neoclide/coc.nvim' , { 'branch' : 'release' }
-  Plug 'xolox/vim-misc'
-  Plug 'xolox/vim-notes'
-    let g:notes_suffix = '.txt'
-    let g:notes_directories = ['~/dev/notes']
-    hi notesBlockCode ctermfg=14
-  Plug 'xolox/vim-session'
-    let g:session_autosave='yes'
-    let g:session_autoload='yes'
-  Plug 'easymotion/vim-easymotion'
+	Plug 'jparise/vim-graphql'
+	Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+	Plug 'diepm/vim-rest-console'
+	Plug 'pechorin/any-jump.vim'
+	Plug 'tpope/vim-commentary'
+	Plug 'tpope/vim-surround'
+	Plug 'tpope/vim-repeat'
+	Plug 'ervandew/supertab'
+	Plug 'haya14busa/incsearch.vim'
+	Plug 'haya14busa/vim-easyoperator-line'
+	Plug 'airblade/vim-gitgutter'
+	Plug 'ruanyl/vim-gh-line'
+	Plug 'alvan/vim-closetag'
+	Plug 'inkarkat/vim-UnconditionalPaste'
+	Plug 'pbogut/fzf-mru.vim'
+	Plug 'tjdevries/express_line.nvim'
 call plug#end()
 
-let mapleader = " "
+augroup LuaHighlight
+	autocmd!
+	autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
+augroup END
 
-nmap s :w<cr>
-map tg :FZF ~/dev/growers-ui/<cr>
-map tb :FZF ~/dev/backup/<cr>
-map ti :e ~/dev/dotfiles/init.vim<cr>
-map tx :Buffers<cr>
-map ts :w<cr>:so %<cr>
-map th :History<cr>
-map tl :LazyGit<cr>
-map tt :bn<cr>
-" map ty set @+=expand("%") . ':' . line(".")<cr> 
-map tx :bd!<cr>   
-map tv :vsp<cr>:bp<cr>
-map to :only<cr>
+"basic settings
+set nocompatible
+set nu
+set hidden
+set autoread
+set nohlsearch
+set noruler
+set noswapfile
+set incsearch
+set noconfirm
+set tabstop=2 softtabstop=2 shiftwidth=2
+set background=dark
+set cmdheight=1
+set nofoldenable
+set foldmethod=indent
+set inccommand=split
+set completeopt=longest,menuone
+set ignorecase
+set smartcase
+set scrolloff=15
+set clipboard=unnamedplus
+syntax on
+
+" shortcuts
+map ee <esc>mA
+map <silent> ec <esc>:bufdo bd!<cr>
+map ea <esc>`A
+map ei :e ~/dev/dotfiles/init.vim<cr>
+map ex :bd!<cr> 
+map ev :vsp<cr>:bp<cr>
+map ev :sp<cr>:bp<cr>
+map eo :only<cr>
+map en :Note 032021<cr>
+nmap gd <Plug>(coc-definition)
+nmap gy <Plug>(coc-type-definition)
+nmap gi <Plug>(coc-implementation)
+nmap gr <Plug>(coc-references)
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+map f <Plug>(easymotion-bd-f)
+map t <Plug>(easymotion-bd-t)
+map k <Plug>(IndentWisePreviousEqualIndent)
+map j <Plug>(IndentWiseNextEqualIndent)
+nmap cc ciw
+
+nnoremap - <esc>:FloatermNew --height=0.9 --width=0.9 lf<cr>
+noremap 8 *
+noremap 5 %
+noremap p gp
+noremap P gP
+noremap gp p
+noremap gP P
+nnoremap S diw"0P
+noremap J j
+noremap K k
+inoremap kk <ESC>
+inoremap jj <ESC>:w<cr>
+
+imap cll console.log();<Esc>==ba
+noremap <leader>p o<Esc>p
+nmap <leader><leader> <Plug>(GitGutterNextHunk)
+nnoremap <leader><leader> <C-d>
+noremap <leader><leader>p O<Esc>p
+"nnoremap c "_c
+" vnoremap c "_c
+" nnoremap d "_d
+" vnoremap d "_d
+nnoremap <silent><C-p> :FZF<cr>
+nnoremap <silent><C-c> :FZFMru<cr>
+nnoremap <silent><C-g> :Rg<cr>
+nnoremap <silent><C-h> :History<cr>
+nnoremap <silent><C-z> :LazyGit<cr>
+nnoremap <silent><C-b> :Buffers<cr>
+nnoremap <silent><C-f> :GF?<cr>
+nnoremap <silent><C-a> :Bookmark<cr>
+inoremap <silent><C-s> <esc>:w<cr>
+nnoremap <silent><C-q> :call fzf#run({'source': 'cat ~/dev/scripts/annotations.txt', 'sink': 'HandleFZF', 'options':'--with-nth 2..-1'})<cr>
+" nnoremap <silent><C-x> :call fzf#run({'source': 'git show --name-only --oneline', 'options':'--header-lines=1', 'sink':'e'})<cr>
+nnoremap <silent><C-x> :call fzf#run({'source': 'git status -s \| cut -c4- && git log --name-only --oneline -10', 'options':'--header-lines=0', 'sink':'e'})<cr>
+nnoremap <silent> <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:b#<CR>
+nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
+" map s <esc>:w<cr>
+"autocomplete shortcuts
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "<CR>"
+inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
+			\ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
+inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
+			\ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+" nmap ph <Plug>UnconditionalPasteInlinedAfter
+" nmap pl <Plug>UnconditionalPasteLineAfter
+" nmap pL <Plug>UnconditionalPasteLineBefore
+
+" Plugin configurations
+let mapleader=" "
+let g:move_key_modifier='C'
+let g:notes_suffix='.txt'
+let g:notes_directories=['~/dev/notes']
+let g:notes_word_boundaries=1
+let g:session_autosave='yes'
+let g:session_autoload='yes'
+let g:minisnip_trigger='<C-c>'
+let g:gruvbox_italic=1
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9, 'highlight': 'Comment', 'border':'sharp'} }
+let g:prettier#autoformat = 1
+let g:prettier#autoformat_require_pragma = 0
 let g:EasyMotion_smartcase=1
-
-map <leader> <Plug>(easymotion-prefix)
-map <leader>f <Plug>(easymotion-bd-f)
-nmap <leader>f <Plug>(easymotion-overwin-f)
-nmap <leader>s <Plug>(easymotion-overwin-f2)
-map <leader>l <Plug>(easymotion-bd-jk)
-nmap <leader>l <Plug>(easymotion-overwin-line)
-map  <leader>w <Plug>(easymotion-bd-w)
-nmap <leader><leader>w <Plug>(easymotion-overwin-w)
-
-function! OpenFloatingWin()
-    let width = min([&columns - 4, max([80, &columns - 20])])
-    let height = min([&lines - 4, max([20, &lines - 10])])
-    let top = ((&lines - height) / 2) - 1
-    let left = (&columns - width) / 2
-    let opts = {'relative': 'editor', 'row': top, 'col': left, 'width': width, 'height': height, 'style': 'minimal'}
-
-    let top = "╭" . repeat("─", width - 2) . "╮"
-    let mid = "│" . repeat(" ", width - 2) . "│"
-    let bot = "╰" . repeat("─", width - 2) . "╯"
-    let lines = [top] + repeat([mid], height - 2) + [bot]
-    let s:buf = nvim_create_buf(v:false, v:true)
-    call nvim_buf_set_lines(s:buf, 0, -1, v:true, lines)
-    call nvim_open_win(s:buf, v:true, opts)
-    set winhl=Normal:Normal
-    let opts.row += 1
-    let opts.height -= 2
-    let opts.col += 2
-    let opts.width -= 4
-    call nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
-    au BufWipeout <buffer> exe 'bw '.s:buf
-endfunction
+let g:any_jump_grouping_enabled=1
+let g:netrw_fastbrowse = 0
+let g:netrw_banner=0
+let g:netrw_list_hide='.*\.swp$'
+let g:netrw_chgwin=1
+let g:gitblame_enabled=1
+let g:gitblame_message_template = '<date> @<author> - <summary>'
+let g:gitblame_date_format = '%b %d'
+"Remvoe netrw when it sticks around with readonly
+autocmd FileType netrw setl bufhidden=delete
+syntax enable
 colorscheme gruvbox
+set background=dark
+
+augroup PrettierFileDetect
+	autocmd BufNewFile,BufReadPost *.vue setfiletype vue
+augroup end
+
+function! HandleFZF(file)
+	execute 'e' substitute(split(a:file," ")[0],'\','', 'g')
+endfunction
+command! -nargs=1 HandleFZF :call HandleFZF(<f-args>)
+
+function! Bookmark()
+	let name = input('Enter name: ')
+	call writefile([ expand('%:p') . ' ' . name], "/Users/deepakpenmetsa/dev/scripts/annotations.txt","a")
+endfunction
+command! Bookmark :call Bookmark()
+
+hi Normal guibg=NONE ctermbg=NONE
