@@ -3,8 +3,7 @@ filetype plugin indent on
 set completeopt=menuone,noselect
 set nu
 set smartindent
-set tabstop=2
-set shiftwidth=2
+set cmdheight=1
 set expandtab
 set nohlsearch
 set noconfirm
@@ -24,14 +23,18 @@ set mouse=
 set background=dark
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 set scl=yes
+set inccommand=split
+let g:netrw_fastbrowse = 0
+autocmd FileType netrw setl bufhidden=delete
+let g:netrw_banner=0
+let g:netrw_list_hide='.*\.swp$'
+let g:netrw_chgwin=1
 
 let mapleader = " "
 
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "<CR>"
-inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
-  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
-  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'e
+inoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+inoremap <expr> <M-,> pumvisible() ? '<C-n>' :'<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'e
 
 inoremap zz <esc>:w!<cr>
 map zz <esc>:w!<cr>
@@ -39,7 +42,15 @@ map zs <esc>:so %<cr>
 map zi <esc>:PlugInstall<cr>
 map zc <esc>:PlugClean<cr>
 map zt <Plug>window:quickfix:loop
-map ee <esc>::NvimTreeToggle<CR>
+map za :lua require'telescope.builtin'.find_files({previewer=false})<cr>
+map zf <cmd>Telescope file_browser<cr>
+map zr <cmd>Telescope live_grep<cr>
+map zb <cmd>Telescope buffers<cr>
+map zq <cmd>Telescope quickfix<cr>
+map zg <cmd>Telescope git_status<cr>
+
+nnoremap el <esc>:FloatermNew --height=0.9 --width=0.9 lf<cr>
+" map ee <esc>::NvimTreeToggle<CR>
 map ef <esc>:GF?<cr>
 map eh <esc>:History<cr>
 map eb <esc>:Buffers?<cr>
@@ -57,6 +68,12 @@ map eg :call fzf#run({'source': 'git show --name-only --oneline', 'options':'--h
 nnoremap  <silent> <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:b#<CR>
 nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
 
+noremap p gp
+noremap P gP
+noremap gp p
+noremap gP P
+noremap <leader>p o<Esc>p
+noremap <leader><leader>p O<Esc>p
 nnoremap c "_c
 vnoremap c "_c
 nnoremap d "_d
@@ -73,6 +90,17 @@ vmap <C-v> c<ESC>"+p
 imap <C-v> <C-r><C-o>+
 "copy current file path
 nmap <silent>cp :let @" = expand("%")<cr>:let @+ = expand("%")<cr>
+
+function! HandleFZF(file)
+  execute 'e' substitute(split(a:file," ")[0],'\','', 'g')
+endfunction
+command! -nargs=1 HandleFZF :call HandleFZF(<f-args>)
+
+function! Bookmark()
+  let name = input('Enter name: ')
+	call writefile([ expand('%:p') . ' ' . name], "/Users/deepakpenmetsa/dev/scripts/annotations.txt","a")
+endfunction
+command! Bookmark :call Bookmark()
 
 let g:compe = {}
 let g:compe.enabled = v:true
@@ -97,47 +125,6 @@ let g:compe.source.nvim_lua = v:true
 let g:compe.source.vsnip = v:true
 highlight link CompeDocumentation NormalFloat
 
-let g:nvim_tree_side = 'left' "left by default
-let g:nvim_tree_width = 40 "30 by default
-let g:nvim_tree_ignore = [ '.git', 'node_modules', '.cache' ] "empty by default
-let g:nvim_tree_auto_open = 1 "0 by default, opens the tree when typing `vim $DIR` or `vim`
-let g:nvim_tree_auto_close = 1 "0 by default, closes the tree when it's the last window
-let g:nvim_tree_quit_on_open = 1 "0 by default, closes the tree when you open a file
-let g:nvim_tree_follow = 1 "0 by default, this option allows the cursor to be updated when entering a buffer
-let g:nvim_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
-let g:nvim_tree_hide_dotfiles = 1 "0 by default, this option hides files and folders starting with a dot `.`
-let g:nvim_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
-let g:nvim_tree_root_folder_modifier = ':~' "This is the default. See :help filename-modifiers for more options
-let g:nvim_tree_tab_open = 1 "0 by default, will open the tree when entering a new tab and the tree was previously open
-let g:nvim_tree_width_allow_resize  = 1 "0 by default, will not resize the tree when opening a file
-let g:nvim_tree_disable_netrw = 0 "1 by default, disables netrw
-let g:nvim_tree_hijack_netrw = 0 "1 by default, prevents netrw from automatically opening when opening directories (but lets you keep its other utilities)
-let g:nvim_tree_add_trailing = 1 "0 by default, append a trailing slash to folder names
-let g:nvim_tree_group_empty = 1 " 0 by default, compact folders that only contain a single folder into one node in the file tree
-let g:nvim_tree_show_icons = {
-    \ 'git': 1,
-    \ 'folders': 0,
-    \ 'files': 0,
-    \ }
-let g:nvim_tree_icons = {
-    \ 'default': '',
-    \ 'symlink': '',
-    \ 'git': {
-    \   'unstaged': "✗",
-    \   'staged': "✓",
-    \   'unmerged': "",
-    \   'renamed': "➜",
-    \   'untracked': "★"
-    \   },
-    \ 'folder': {
-    \   'default': "",
-    \   'open': "",
-    \   'empty': "",
-    \   'empty_open': "",
-    \   'symlink': "",
-    \   'symlink_open': "",
-    \   }
-    \ }
 noremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> gf <esc>:AnyJump<cr> 
@@ -154,6 +141,7 @@ augroup luahighlight
 augroup end
 
 call plug#begin('~/.vim/plugged')
+  Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
   Plug 'nvim-lua/plenary.nvim'
   Plug 'mhinz/vim-signify'
   Plug 'neovim/nvim-lspconfig'
@@ -187,13 +175,15 @@ call plug#begin('~/.vim/plugged')
   Plug 'mg979/vim-visual-multi'
   Plug 'haya14busa/incsearch.vim'
   Plug 'kyazdani42/nvim-web-devicons' " for file icons
-  Plug 'kyazdani42/nvim-tree.lua'
+  " Plug 'kyazdani42/nvim-tree.lua'
   Plug 'mattn/vim-lsp-icons'
   Plug 'ervandew/supertab'
   Plug 'drmingdrmer/vim-toggle-quickfix'
   Plug 'kdheepak/lazygit.vim', {'branch':'nvim-v0.4.3'}
   Plug 'pechorin/any-jump.vim'
   Plug 'matze/vim-move'
+  Plug 'nvim-telescope/telescope.nvim'
+  Plug 'nvim-lua/popup.nvim'
 call plug#end()
 colorscheme gruvbox 
 lua require'lspconfig'.tsserver.setup{}
@@ -202,7 +192,6 @@ let g:any_jump_window_width_ratio  = 0.8
 let g:any_jump_window_height_ratio = 0.8
 let g:any_jump_window_top_offset   = 2 
 
-" lua require('gitsigns').setup()
 "transparency
 hi Normal guibg=#222222 ctermbg=NONE
 hi LineNr guibg=NONE ctermbg=NONE ctermfg=NONE guifg=#222222
@@ -218,4 +207,10 @@ let g:move_key_modifier='c'
 let g:any_jump_grouping_enabled = 1 
 let g:any_jump_preview_lines_count = 1
 let g:any_jump_max_search_results = 100
-
+inoremap <silent><expr> <CSpace> compe#complete()
+inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+hi Floaterm guibg=black
+hi FloatermBorder guibg=black guifg=gray
