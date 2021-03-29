@@ -24,6 +24,7 @@ set background=dark
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 set scl=yes
 set inccommand=split
+set autochdir
 let g:netrw_fastbrowse = 0
 autocmd FileType netrw setl bufhidden=delete
 let g:netrw_banner=0
@@ -43,11 +44,14 @@ map zi <esc>:PlugInstall<cr>
 map zc <esc>:PlugClean<cr>
 map zt <Plug>window:quickfix:loop
 map za :lua require'telescope.builtin'.find_files({previewer=false})<cr>
-map zf <cmd>Telescope file_browser<cr>
-map zr <cmd>Telescope live_grep<cr>
-map zb <cmd>Telescope buffers<cr>
-map zq <cmd>Telescope quickfix<cr>
-map zg <cmd>Telescope git_status<cr>
+map zf <cmd>Telescope file_browser previewer=false<cr>
+map zr <cmd>Telescope live_grep previewer=false<cr>
+map zb <cmd>Telescope buffers previewer=false<cr>
+map zq <cmd>Telescope quickfix previewer=false<cr>
+map zg <cmd>Telescope git_status previewer=false<cr>
+map zv <cmd>Telescope grep_string previewer=false<cr>
+noremap 8 *
+noremap 5 %
 
 nnoremap el <esc>:FloatermNew --height=0.9 --width=0.9 lf<cr>
 " map ee <esc>::NvimTreeToggle<CR>
@@ -183,10 +187,12 @@ call plug#begin('~/.vim/plugged')
   Plug 'pechorin/any-jump.vim'
   Plug 'matze/vim-move'
   Plug 'nvim-telescope/telescope.nvim'
+  Plug 'nvim-telescope/telescope-fzy-native.nvim'
   Plug 'nvim-lua/popup.nvim'
 call plug#end()
 colorscheme gruvbox 
 lua require'lspconfig'.tsserver.setup{}
+lua require'settings'
 
 let g:any_jump_window_width_ratio  = 0.8
 let g:any_jump_window_height_ratio = 0.8
@@ -197,7 +203,7 @@ hi Normal guibg=#222222 ctermbg=NONE
 hi LineNr guibg=NONE ctermbg=NONE ctermfg=NONE guifg=#222222
 hi SignColumn guibg=NONE ctermbg=NONE
 hi EndOfBuffer guibg=NONE ctermbg=NONE
-hi SignifySignAdd    ctermfg=green  guifg=#00ff00 cterm=NONE gui=NONE
+hi SignifySignAdd ctermfg=green  guifg=#00ff00 cterm=NONE gui=NONE
 hi SignifySignDelete ctermfg=red  guifg=#ff0000 cterm=NONE gui=NONE
 hi SignifySignChange ctermfg=yellow  guifg=#ffff00 cterm=NONE gui=NONE
 hi Visual  guifg=#999999 guibg=#444444 gui=none
@@ -214,3 +220,5 @@ inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
 inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 hi Floaterm guibg=black
 hi FloatermBorder guibg=black guifg=gray
+highlight TelescopeNormal         guibg=#444444
+highlight TelescopeSelection      guibg=#333333
