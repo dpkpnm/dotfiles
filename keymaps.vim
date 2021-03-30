@@ -14,12 +14,13 @@ map ea <cmd>Rg<cr>
 map eb <cmd>Telescope buffers<cr>
 map ec <esc>:bufdo bd!<cr>
 map ed <cmd>lua require('settings').file_browser_cwd()<cr>
-map ee <cmd>Telescope find_files previewer=false <cr>
+map ee <cmd>lua require('settings').find_growers()<cr>
 map ef <esc>:GF?<cr>
 map eg :call fzf#run({'source': 'git show --name-only --oneline', 'options':'--header-lines=1', 'sink':'e'})<cr>
 map eg <cmd>Telescope git_status<cr>
 map eh <esc>:History<cr>
 map ei :e ~/dev/dotfiles/init.vim<cr>
+map ej <cmd>lua require('settings').find_dotfiles()<cr>
 map em <esc>mA
 map ep <esc>:FZF<cr>
 map eq <cmd>Telescope quickfix previewer=false<cr>
