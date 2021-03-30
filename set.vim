@@ -1,25 +1,23 @@
-set completeopt=menuone,noselect
-set nu
-set smartindent
-set cmdheight=1
-set expandtab
-set nohlsearch
-set noconfirm
-set noruler
 set autoread
-set hidden
-set nowrap
-set termguicolors
-set t_Co=256
-set so=999
-set smartcase ignorecase
-set cursorline
-set noswapfile
-set noerrorbells
-set clipboard=unnamedplus
-set mouse=
 set background=dark
-set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-set scl=yes
+set clipboard=unnamedplus
+set cmdheight=1
+set completeopt=menuone,noselect
+set cursorline
+set hidden
 set inccommand=split
-
+set mouse=
+set noconfirm
+set noerrorbells
+set nohlsearch
+set noruler
+set noswapfile
+set nowrap
+set nu
+set scl=yes
+set smartcase ignorecase
+set smartindent
+set so=999
+set t_Co=256
+set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+set termguicolors

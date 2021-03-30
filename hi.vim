@@ -10,6 +10,4 @@ hi Visual  guifg=#999999 guibg=#444444 gui=none
 hi Pmenu guibg=#3b3b3b ctermbg=green
 hi Floaterm guibg=black
 hi FloatermBorder guibg=black guifg=gray
-hi TelescopeNormal guibg=#444444
-hi TelescopeSelection guibg=#333333
 hi link CompeDocumentation NormalFloat

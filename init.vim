@@ -29,7 +29,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'easymotion/vim-easymotion'
   Plug 'mg979/vim-visual-multi'
   Plug 'haya14busa/incsearch.vim'
-  Plug 'kyazdani42/nvim-web-devicons' " for file icons
+  Plug 'kyazdani42/nvim-web-devicons'
   Plug 'mattn/vim-lsp-icons'
   Plug 'ervandew/supertab'
   Plug 'drmingdrmer/vim-toggle-quickfix'
@@ -48,5 +48,6 @@ source ~/dev/dotfiles/cmd.vim
 source ~/dev/dotfiles/hi.vim
 
 lua require'lspconfig'.tsserver.setup{}
+lua require("lualine").setup()
 lua require'settings'
 
