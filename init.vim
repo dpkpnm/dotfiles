@@ -45,6 +45,7 @@ source ~/dev/dotfiles/keymaps.vim
 source ~/dev/dotfiles/set.vim
 source ~/dev/dotfiles/cmd.vim
 source ~/dev/dotfiles/hi.vim
+source ~/dev/dotfiles/let.vim
 
 lua require'lspconfig'.tsserver.setup{}
 lua require'settings'
