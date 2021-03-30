@@ -1,42 +1,67 @@
-let mapleader=" "
-map <silent><Leader>s <Esc>:w<CR>
-map <silent><Leader>g <Esc>:FZF ~/dev/growers-ui<CR>
-map <silent><Leader>/ <Esc>:Rg<CR>
-map <silent><Leader>f <Esc>:FZF<CR>
-
-map <silent><Leader>c :e ~/.config/nvim/init.vim<CR>
-map <silent><Leader>v :w<bar> so %<CR>
-map <silent><Leader>b :bn<CR>
-map <silent><Leader>x :bd<CR>
-map <silent><Leader>o :Explore<CR>
-map <C-s> :w<kEnter>
-imap <C-s> <Esc>:w<kEnter>i
-imap <S-Up> <Esc>:visual<cr><Up> 
-nmap <S-Down> <Esc>v<Down>
-nmap <S-Left> <Esc>v<Left>
-nmap <S-Right> <Esc>v<Right>
-vmap <S-Up> <Up>
-vmap <S-Down> <Down>
-vmap <S-Left> <Left>
-vmap <S-Right> <Right>
-vmap <Del> dd
-map <silent><c-q> <plug>NERDCommenterToggle
-nnoremap <silent><Tab> :bnext<cr>
-nnoremap <silent><S-Tab> :bd<cr>
-nnoremap <silent><c-Tab> :<c-w>w<cr>
-nnoremap <silent><leader>w :w<cr>
-map <M-right> <C-w>l
-nnoremap U <C-R> # redo
-
-nnoremap <leader><leader> :Startify<cr>
-imap jjk :w<cr>
-imap jj <ESC>
-map L $ 
-map H ^
-
-nnoremap p P
-nnoremap P p
-
-map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+imap <C-v> <C-r><C-o>+
+inoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "<CR>"
+inoremap <expr> <M-,> pumvisible() ? '<C-n>' :'<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'e
+inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+inoremap <silent><expr> <CSpace> compe#complete()
+inoremap zz <esc>:w!<cr>
+map <s-h> <Plug>(IndentWisePreviousEqualIndent)
+map <s-j> <Plug>(IndentWiseNextEqualIndent)
+map ea <esc>`A
+map eb <esc>:Buffers?<cr>
+map ec <esc>:bufdo bd!<cr>
+map ef <esc>:GF?<cr>
+map eg :call fzf#run({'source': 'git show --name-only --oneline', 'options':'--header-lines=1', 'sink':'e'})<cr>
+map eg <esc>:Rg<cr>
+map eh <esc>:History<cr>
+map ei :e ~/dev/dotfiles/init.vim<cr>
+map em <esc>mA
+map ep <esc>:FZF<cr>
+map ew ci)
+map ex :bd!<cr>
+map ez <esc>:LazyGit<cr>
+map f <Plug>(easymotion-bd-f)
+map t <Plug>(easymotion-bd-t)
+map za <cmd>Telescope find_files<cr>
+map zb <cmd>Telescope buffers previewer=false<cr>
+map zc <esc>:PlugClean<cr>
+map zf <cmd>Telescope file_browser previewer=false<cr>
+map zg <cmd>Telescope git_status previewer=false<cr>
+map zi <esc>:PlugInstall<cr>
+map zq <cmd>Telescope quickfix previewer=false<cr>
+map zr <cmd>Telescope live_grep previewer=false<cr>
+map zs <esc>:so %<cr>
+map zt <Plug>window:quickfix:loop
+map zv <cmd>Telescope grep_string previewer=false<cr>
+map zz <esc>:w!<cr>
+nmap <silent>cp :let @" = expand("%")<cr>:let @+ = expand("%")<cr>
+nmap eq <Plug>window:quickfix:loop
+nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
+nnoremap  <silent> <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:b#<CR>
+nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> <C-n> <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+nnoremap <silent> <C-p> <cmd>lua vim.lsp.diagnostic.goto_next()<CR>n
+nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> gf <esc>:AnyJump<cr> 
+nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap c "_c
+nnoremap d "_d
+nnoremap el <esc>:FloatermNew --height=0.9 --width=0.9 lf<cr>
+noremap 5 %
+noremap 8 *
+noremap <leader><leader>p O<Esc>p
+noremap <leader>p o<Esc>p
+noremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+noremap P gP
+noremap gP P
+noremap gp p
+noremap p gp
+vmap <C-c> "+y
+vmap <C-v> c<ESC>"+p
+vmap <C-x> "+c
+vnoremap c "_c
+vnoremap d "_d
