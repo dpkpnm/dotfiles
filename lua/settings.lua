@@ -34,8 +34,8 @@ M.file_browser_cwd = function()
 end
 M.find_growers = function()
   require("telescope.builtin").find_files({
-    prompt_title = "Growers-ui",
-    cwd = "~/dev/growers-ui" 
+    prompt_title = "dev",
+    cwd = "~/dev" 
   })
 end
 

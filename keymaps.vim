@@ -25,6 +25,7 @@ map em <esc>mA
 map ep <esc>:FZF<cr>
 map eq <cmd>Telescope quickfix previewer=false<cr>
 map er <cmd>Telescope live_grep previewer=false<cr>
+map et <cmd>NvimTreeToggle<cr>
 map ew ci)
 map ex :bd!<cr>
 map ez <esc>:LazyGit<cr>
