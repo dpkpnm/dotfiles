@@ -2,6 +2,7 @@ syntax on
 filetype plugin indent on
 
 call plug#begin('~/.vim/plugged')
+  Plug 'ptzz/lf.vim'
   Plug 'kyazdani42/nvim-tree.lua'
   Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
   Plug 'nvim-lua/plenary.nvim'

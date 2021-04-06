@@ -17,7 +17,6 @@ map ed <cmd>lua require('settings').file_browser_cwd()<cr>
 map ee <cmd>lua require('settings').find_growers()<cr>
 map ef <esc>:GF?<cr>
 map eg :call fzf#run({'source': 'git show --name-only --oneline', 'options':'--header-lines=1', 'sink':'e'})<cr>
-map eg <cmd>Telescope git_status<cr>
 map eh <esc>:History<cr>
 map ei :e ~/dev/dotfiles/init.vim<cr>
 map ej <cmd>lua require('settings').find_dotfiles()<cr>
@@ -57,7 +56,7 @@ nnoremap c "_c
 nnoremap d "_d
 nnoremap w W
 nnoremap b B
-nnoremap el <esc>:FloatermNew --height=0.9 --width=0.9 lf<cr>
+nnoremap el <cmd>Lf<cr>
 noremap 5 %
 noremap 8 *
 noremap <leader><leader>p O<Esc>p
@@ -72,3 +71,5 @@ vmap <C-v> c<ESC>"+p
 vmap <C-x> "+c
 vnoremap c "_c
 vnoremap d "_d
+
+nnoremap es :call fzf#run(fzf#wrap({'source': 'rg --files ~/dev/notes', 'options': '--header="[notes:search]" --preview="cat {}"'}))<Cr>
