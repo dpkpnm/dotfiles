@@ -2,7 +2,8 @@ syntax on
 filetype plugin indent on
 
 call plug#begin('~/.vim/plugged')
-  Plug 'ptzz/lf.vim'
+ Plug 'ptzz/lf.vim'
+  Plug 'f-person/git-blame.nvim', { 'branch': 'master' }
   Plug 'kyazdani42/nvim-tree.lua'
   Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
   Plug 'nvim-lua/plenary.nvim'
@@ -41,6 +42,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzy-native.nvim'
   Plug 'nvim-lua/popup.nvim'
+  Plug 'VebbNix/lf-vim'
 call plug#end()
 
 source ~/dev/dotfiles/keymaps.vim
@@ -52,4 +54,3 @@ source ~/dev/dotfiles/hi.vim
 lua require'lspconfig'.tsserver.setup{}
 lua require("lualine").setup()
 lua require'settings'
-

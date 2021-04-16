@@ -1,0 +1,64 @@
+set preview false
+set hidden true
+set drawbox false
+set ignorecase true
+
+cmd open ${{
+	case $(file --dereference --mime-type $f -b) in
+		inode/x-empty) $EDITOR $fx ;;
+		text/*) $EDITOR -c "only" $fx ;;
+		video/*) nohup mpv $fx > /dev/null & ;;
+		audio/*) nohup mpv $fx > /dev/null & ;;
+		audio/midi) timidity $fx ;;
+		application/epub+zip) nohup FBReader $f > /dev/null & ;;
+		application/pdf) nohup zathura $f > /dev/null & ;;
+		*) for f in $fx; do $OPENER $f > /dev/null 2> /dev/null & done;;
+	esac
+}}
+cmd mkdir ${{
+  printf "Directory Name: "
+  read ans
+  mkdir $ans
+}}
+cmd mkfile ${{
+  printf "File name:"
+  read ans
+  touch $ans
+}}
+cmd fzf_jump ${{
+  res="$(rg --hidden --files -g '!.git'| fzf --reverse)"
+  if [ -f "$res" ]; then
+    cmd="select"
+  elif [ -d "$res" ]; then
+    cmd="cd"
+  fi
+  lf -remote "send $id $cmd \"$res\""
+}}
+
+map f
+map m
+map n
+map d
+map g
+
+map <enter> open
+map n mkfile 
+map md mkdir
+map d delete 
+map r rename
+map f fzf_jump
+map p paste
+map x cut
+map y copy
+
+map gar cd ~/dev/growers-ui/src/apps/growers
+map gam cd ~/dev/growers-ui/src/apps/gma
+map gap cd ~/dev/growers-ui/src/apps/UserAdmin/PricingAdmin
+map gpt cd ~/dev/growers-ui/src/apps/shared/PricingTools
+map gd cd ~/dev/dotfiles
+map gn cd ~/dev/notes
+map gmx cd ~/Downloads
+map gmd cd ~/Desktop
+map gma cd ~/Applications
+map gmc cd ~/Documents
+
