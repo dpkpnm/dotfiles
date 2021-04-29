@@ -5,7 +5,7 @@ set cmdheight=1
 set completeopt=menuone,noselect
 set cursorline
 set hidden
-set mouse=
+set mouse=a
 set noconfirm
 set noerrorbells
 set nohlsearch

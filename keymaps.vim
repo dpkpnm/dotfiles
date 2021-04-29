@@ -11,10 +11,9 @@ inoremap zz <esc>:w!<cr>
 map <s-h> <Plug>(IndentWisePreviousEqualIndent)
 map <s-j> <Plug>(IndentWiseNextEqualIndent)
 map ea <cmd>Rg<cr>
-map eb <cmd>Telescope buffers<cr>
+map eb <cmd>Buffers<cr>
 map ec <esc>:bufdo bd!<cr>
 map ed <cmd>lua require('settings').file_browser_cwd()<cr>
-" map ee <cmd>lua require('settings').find_growers()<cr>
 map ee <cmd>Lf<cr>
 map ef <esc>:FZF<cr>
 map eg :call fzf#run({'source': 'git show --name-only --oneline', 'options':'--header-lines=1', 'sink':'e'})<cr>
@@ -74,5 +73,4 @@ vmap <C-v> c<ESC>"+p
 vmap <C-x> "+c
 vnoremap c "_c
 vnoremap d "_d
-
-nnoremap es :call fzf#run(fzf#wrap({'source': 'rg --files ~/dev/notes', 'options': '--header="[notes:search]" --preview="cat {}"'}))<Cr>
+nnoremap es :call fzf#run(fzf#wrap({'source': 'rg --files ~dev/notes', 'options': '--header="[notes:search]"}))<Cr>

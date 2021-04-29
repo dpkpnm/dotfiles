@@ -1,6 +1,5 @@
 colorscheme gruvbox
 hi Normal guibg=#222222 ctermbg=NONE
-hi LineNr guibg=NONE ctermbg=NONE ctermfg=NONE guifg=#222222
 hi SignColumn guibg=NONE ctermbg=NONE
 hi EndOfBuffer guibg=NONE ctermbg=NONE
 hi SignifySignAdd ctermfg=green  guifg=#00ff00 cterm=NONE gui=NONE

@@ -3,6 +3,7 @@ filetype plugin indent on
 
 call plug#begin('~/.vim/plugged')
  Plug 'ptzz/lf.vim'
+  Plug 'ruanyl/vim-gh-line'
   Plug 'f-person/git-blame.nvim', { 'branch': 'master' }
   Plug 'kyazdani42/nvim-tree.lua'
   Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
